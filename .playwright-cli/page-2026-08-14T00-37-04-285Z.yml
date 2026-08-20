@@ -1,0 +1,381 @@
+- generic [active] [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - navigation [ref=f4e3]:
+      - link "Deco Supplier" [ref=f4e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f4e10]:
+        - link "Home" [ref=f4e11] [cursor=pointer]:
+          - /url: /
+        - button "Products" [ref=f4e13]
+        - link "About" [ref=f4e17] [cursor=pointer]:
+          - /url: /about
+        - link "Service" [ref=f4e18] [cursor=pointer]:
+          - /url: /service
+        - link "Blog" [ref=f4e19] [cursor=pointer]:
+          - /url: /Blog
+        - link "Contact" [ref=f4e20] [cursor=pointer]:
+          - /url: /contact
+      - link "Request Quote" [ref=f4e22] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=f4e23]:
+    - generic [ref=f4e24]:
+      - img "DecoSupplier manufacturing and surface decoration solutions" [ref=f4e26]
+      - generic [ref=f4e29]:
+        - generic [ref=f4e30]: Factory Manufacturing & Surface Materials
+        - heading "Manufacturing decorative surfaces for real-world applications" [level=1] [ref=f4e33]:
+          - text: Manufacturing decorative surfaces for
+          - generic [ref=f4e34]: real-world applications
+        - paragraph [ref=f4e35]: From pattern development and printing to coating, embossing, and finishing — we manufacture PVC decorative films, LVT flooring, wall panels, and related surface materials for global projects.
+        - generic [ref=f4e36]:
+          - link "Request Product Info" [ref=f4e37] [cursor=pointer]:
+            - /url: /contact
+          - link "View Product Range" [ref=f4e38] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=f4e39]:
+          - generic [ref=f4e40]:
+            - generic [ref=f4e41]: 15+
+            - generic [ref=f4e42]: Years Experience
+          - generic [ref=f4e43]:
+            - generic [ref=f4e44]: 1000+
+            - generic [ref=f4e45]: Patterns Available
+          - generic [ref=f4e46]:
+            - generic [ref=f4e47]: 99.9%
+            - generic [ref=f4e48]: Quality Rate
+          - generic [ref=f4e49]:
+            - generic [ref=f4e50]: 200+
+            - generic [ref=f4e51]: Countries Served
+    - generic [ref=f4e56]:
+      - generic [ref=f4e57]:
+        - generic [ref=f4e58]: Our Products
+        - heading "Premium Surface Solutions" [level=2] [ref=f4e59]
+        - paragraph [ref=f4e60]: DecoSupplier offers a comprehensive range of decorative surface materials — from resilient flooring and wall panels to self-adhesive films and wallpapers — engineered for quality, design, and durability.
+      - generic [ref=f4e62]:
+        - generic [ref=f4e65] [cursor=pointer]:
+          - img "PVC Decorative Film" [ref=f4e66]
+          - generic:
+            - heading "PVC Decorative Film" [level=3]
+          - generic [ref=f4e67]:
+            - heading "PVC Decorative Film" [level=3] [ref=f4e68]
+            - paragraph [ref=f4e69]: High-performance surface wrapping and vacuum pressing films for furniture, kitchen cabinets, and interior doors — available in wood grain, marble, and solid color finishes with superior scratch and stain resistance.
+        - generic [ref=f4e72] [cursor=pointer]:
+          - img "LVT Flooring" [ref=f4e73]
+          - generic:
+            - heading "LVT Flooring" [level=3]
+          - generic [ref=f4e74]:
+            - heading "LVT Flooring" [level=3] [ref=f4e75]
+            - paragraph [ref=f4e76]: Premium luxury vinyl tile flooring — waterproof, scratch-resistant, with realistic wood and stone visuals for commercial and residential spaces.
+        - generic [ref=f4e79] [cursor=pointer]:
+          - img "SPC Wall Panels" [ref=f4e80]
+          - generic:
+            - heading "SPC Wall Panels" [level=3]
+          - generic [ref=f4e81]:
+            - heading "SPC Wall Panels" [level=3] [ref=f4e82]
+            - paragraph [ref=f4e83]: Stone plastic composite panels — 100% waterproof, moisture-proof, and quick-install with UV-coated surface protection for lasting beauty.
+        - generic [ref=f4e86] [cursor=pointer]:
+          - img "Interior Refinishing Film" [ref=f4e87]
+          - generic:
+            - heading "Interior Refinishing Film" [level=3]
+          - generic [ref=f4e88]:
+            - heading "Interior Refinishing Film" [level=3] [ref=f4e89]
+            - paragraph [ref=f4e90]: Self-adhesive film for easy surface renovation — ideal for updating kitchen cabinets, furniture, and walls without the mess of traditional renovation.
+        - generic [ref=f4e93] [cursor=pointer]:
+          - img "Self-Adhesive Foam Wall Panels" [ref=f4e94]
+          - generic:
+            - heading "Self-Adhesive Foam Wall Panels" [level=3]
+          - generic [ref=f4e95]:
+            - heading "Self-Adhesive Foam Wall Panels" [level=3] [ref=f4e96]
+            - paragraph [ref=f4e97]: Lightweight 3D texture foam panels with sound absorption and thermal insulation — soft, impact-resistant, and easy to install.
+        - generic [ref=f4e100] [cursor=pointer]:
+          - img "3D PVC Wall Panel" [ref=f4e101]
+          - generic:
+            - heading "3D PVC Wall Panel" [level=3]
+          - generic [ref=f4e102]:
+            - heading "3D PVC Wall Panel" [level=3] [ref=f4e103]
+            - paragraph [ref=f4e104]: Sculptural three-dimensional wall panels for feature walls, lobbies, and hospitality spaces — lightweight, durable, and available in modern geometric designs that create stunning visual impact.
+        - generic [ref=f4e107] [cursor=pointer]:
+          - img "Other Decorative Film Products" [ref=f4e108]
+          - generic:
+            - heading "Other Decorative Film Products" [level=3]
+          - generic [ref=f4e109]:
+            - heading "Other Decorative Film Products" [level=3] [ref=f4e110]
+            - paragraph [ref=f4e111]: Explore our complete range of decorative surface solutions — including custom patterns, specialty finishes, and tailored OEM/ODM options to meet your unique project requirements.
+      - link "Explore All Products" [ref=f4e113] [cursor=pointer]:
+        - /url: /products
+    - generic [ref=f4e117]:
+      - generic [ref=f4e118]:
+        - generic [ref=f4e119]: Production Strength
+        - heading "Capacity and Consistency" [level=2] [ref=f4e120]
+        - paragraph [ref=f4e121]: Our factory combines technical experience, production capacity, and quality control to support dependable manufacturing for decorative surface materials.
+      - generic [ref=f4e122]:
+        - generic [ref=f4e123]:
+          - heading "15+ Years" [level=3] [ref=f4e128]
+          - paragraph [ref=f4e129]: Manufacturing and export experience in surface decoration materials
+          - list [ref=f4e130]:
+            - listitem [ref=f4e131]:
+              - generic [ref=f4e134]: Continuous technical accumulation
+            - listitem [ref=f4e135]:
+              - generic [ref=f4e138]: Global market insight
+            - listitem [ref=f4e139]:
+              - generic [ref=f4e142]: Mature supply chain
+        - generic [ref=f4e143]:
+          - heading "1000+ Patterns" [level=3] [ref=f4e148]
+          - paragraph [ref=f4e149]: In-stock trendy textures – wood, marble, microcement, and more
+          - list [ref=f4e150]:
+            - listitem [ref=f4e151]:
+              - generic [ref=f4e154]: Wood / stone / cement finishes
+            - listitem [ref=f4e155]:
+              - generic [ref=f4e158]: Yearly trend updates
+            - listitem [ref=f4e159]:
+              - generic [ref=f4e162]: Custom design support
+        - generic [ref=f4e163]:
+          - heading "100% Factory-Direct" [level=3] [ref=f4e168]
+          - paragraph [ref=f4e169]: No middlemen – full cost and quality control from source
+          - list [ref=f4e170]:
+            - listitem [ref=f4e171]:
+              - generic [ref=f4e174]: Vertically integrated production
+            - listitem [ref=f4e175]:
+              - generic [ref=f4e178]: No intermediary markup
+            - listitem [ref=f4e179]:
+              - generic [ref=f4e182]: Full traceability
+        - generic [ref=f4e183]:
+          - heading "50,000+ m²" [level=3] [ref=f4e188]
+          - paragraph [ref=f4e189]: Modern production base with high-precision printing and automated lines
+          - list [ref=f4e190]:
+            - listitem [ref=f4e191]:
+              - generic [ref=f4e194]: Wide-width calendering lines
+            - listitem [ref=f4e195]:
+              - generic [ref=f4e198]: Smart slitting & packaging
+            - listitem [ref=f4e199]:
+              - generic [ref=f4e202]: Millions of square metres annual capacity
+        - generic [ref=f4e203]:
+          - heading "200+ Countries" [level=3] [ref=f4e208]
+          - paragraph [ref=f4e209]: Exporting to over 200 countries, serving global brands and contractors
+          - list [ref=f4e210]:
+            - listitem [ref=f4e211]:
+              - generic [ref=f4e214]: Europe / Americas / Southeast Asia / Middle East
+            - listitem [ref=f4e215]:
+              - generic [ref=f4e218]: International certifications
+            - listitem [ref=f4e219]:
+              - generic [ref=f4e222]: Localised service support
+        - generic [ref=f4e223]:
+          - heading "24/7 Support" [level=3] [ref=f4e228]
+          - paragraph [ref=f4e229]: Dedicated technical team – rapid response, custom solutions, and after-sales care
+          - list [ref=f4e230]:
+            - listitem [ref=f4e231]:
+              - generic [ref=f4e234]: Quick inquiry response
+            - listitem [ref=f4e235]:
+              - generic [ref=f4e238]: Free sample delivery
+            - listitem [ref=f4e239]:
+              - generic [ref=f4e242]: Technical guidance after sales
+      - link "View Manufacturing Capabilities" [ref=f4e244] [cursor=pointer]:
+        - /url: /about
+    - generic [ref=f4e247]:
+      - img "DecoSupplier global manufacturing network" [ref=f4e249]
+      - generic [ref=f4e251]:
+        - generic [ref=f4e252]:
+          - generic [ref=f4e253]: Manufacturing Capability
+          - heading "Built for Production and Consistency" [level=2] [ref=f4e254]
+          - paragraph [ref=f4e255]: Our factory combines pattern development, printing, coating, embossing, and finishing capacity to support reliable production for decorative films, flooring, and wall panels.
+        - generic [ref=f4e257]:
+          - generic [ref=f4e258]:
+            - generic: 15+
+            - generic [ref=f4e259]: Years of Manufacturing Excellence
+          - generic [ref=f4e260]:
+            - generic: "3"
+            - generic [ref=f4e261]: In-house Manufacturing Facilities
+          - generic [ref=f4e262]:
+            - generic: 1000+
+            - generic [ref=f4e263]: In-Stock Print Cylinders
+          - generic [ref=f4e264]:
+            - generic: 50+
+            - generic [ref=f4e265]: Countries Exported To
+        - generic [ref=f4e266]:
+          - generic [ref=f4e267]:
+            - heading "Direct Manufacturing Support" [level=3] [ref=f4e271]
+            - paragraph [ref=f4e272]: From sample development to bulk production, our team works directly with your project requirements instead of relying on layers of intermediaries.
+          - generic [ref=f4e273]:
+            - heading "Pattern Development & Custom Production" [level=3] [ref=f4e277]
+            - paragraph [ref=f4e278]: We support custom patterns, color matching, surface effects, and product development for PVC films and related decorative materials.
+          - generic [ref=f4e279]:
+            - heading "Process Control From Raw Material to Finished Product" [level=3] [ref=f4e283]
+            - paragraph [ref=f4e284]: Inspection and control are built into each stage of production, from incoming material to finished rolls and shipment preparation.
+    - generic [ref=f4e286]:
+      - generic [ref=f4e287]:
+        - generic [ref=f4e288]: Factory Capabilities
+        - heading "Manufacturing From Print to Finish" [level=2] [ref=f4e289]
+        - paragraph [ref=f4e290]: Our production flow covers material preparation, printing, coating, embossing, finishing, and shipment preparation for decorative films and related surface products.
+      - generic [ref=f4e293]:
+        - generic [ref=f4e295]:
+          - generic [ref=f4e296]:
+            - img "Raw material sourcing and quality inspection" [ref=f4e297]
+            - generic [ref=f4e299]: "1"
+          - generic [ref=f4e300]:
+            - heading "Raw Material Sourcing" [level=3] [ref=f4e301]
+            - paragraph [ref=f4e302]: We source premium PVC resins, plasticizers, and stabilizers from certified global suppliers. All raw materials undergo rigorous incoming inspection to ensure consistency and compliance with international standards.
+            - generic [ref=f4e303]: Learn more
+        - generic [ref=f4e307]:
+          - generic [ref=f4e308]:
+            - img "Advanced manufacturing and production lines" [ref=f4e309]
+            - generic [ref=f4e311]: "2"
+          - generic [ref=f4e312]:
+            - heading "Precision Manufacturing" [level=3] [ref=f4e313]
+            - paragraph [ref=f4e314]: Our advanced production lines feature high-definition rotogravure printing, multi-layer co-extrusion, embossing, and adhesive coating. Fully automated processes ensure consistent quality across every batch.
+            - generic [ref=f4e315]: Learn more
+        - generic [ref=f4e319]:
+          - generic [ref=f4e320]:
+            - img "Quality control laboratory testing" [ref=f4e321]
+            - generic [ref=f4e323]: "3"
+          - generic [ref=f4e324]:
+            - heading "Quality Control & Testing" [level=3] [ref=f4e325]
+            - paragraph [ref=f4e326]: "Every roll undergoes three-tier inspection: raw material testing, in-line production monitoring, and pre-shipment finished goods inspection. We test for scratch resistance, colorfastness, waterproof bonding, and VOC/aldehyde emissions."
+            - generic [ref=f4e327]: Learn more
+        - generic [ref=f4e331]:
+          - generic [ref=f4e332]:
+            - img "Global logistics and shipping operations" [ref=f4e333]
+            - generic [ref=f4e335]: "4"
+          - generic [ref=f4e336]:
+            - heading "Global Logistics & Delivery" [level=3] [ref=f4e337]
+            - paragraph [ref=f4e338]: Our efficient supply chain and flexible production scheduling ensure stable lead times. We coordinate container loading, customs documentation, and international shipping to deliver products to over 200 countries worldwide.
+            - generic [ref=f4e339]: Learn more
+      - generic [ref=f4e342]:
+        - generic [ref=f4e343]:
+          - heading "Stable Production Capacity" [level=4] [ref=f4e347]
+          - paragraph [ref=f4e348]: Consistent manufacturing capability for repeat orders and larger project requirements
+        - generic [ref=f4e349]:
+          - heading "Reliable Delivery Coordination" [level=4] [ref=f4e353]
+          - paragraph [ref=f4e354]: Production scheduling and shipment support are coordinated to meet delivery needs across global markets
+        - generic [ref=f4e355]:
+          - heading "Quality Built Into Each Stage" [level=4] [ref=f4e359]
+          - paragraph [ref=f4e360]: Inspection and control are applied throughout production to support consistent output
+    - generic [ref=f4e361]:
+      - img "DecoSupplier manufacturing and warehouse facility" [ref=f4e363]
+      - generic [ref=f4e366]:
+        - generic [ref=f4e367]: Production Inquiry
+        - heading "Need Samples or Custom Production?" [level=2] [ref=f4e368]
+        - paragraph [ref=f4e369]: Contact our production and sales team for samples, custom specifications, and factory-direct quotations tailored to your project.
+        - generic [ref=f4e370]:
+          - link "Request Factory Quote" [ref=f4e371] [cursor=pointer]:
+            - /url: /contact
+          - link "Learn About Our Factory" [ref=f4e374] [cursor=pointer]:
+            - /url: /about
+        - generic [ref=f4e377]:
+          - generic [ref=f4e378]:
+            - generic [ref=f4e379]: 15+
+            - generic [ref=f4e380]: Years Experience
+          - generic [ref=f4e381]:
+            - generic [ref=f4e382]: ISO 9001
+            - generic [ref=f4e383]: Certified
+          - generic [ref=f4e384]:
+            - generic [ref=f4e385]: 24/7
+            - generic [ref=f4e386]: Factory Support
+          - generic [ref=f4e387]:
+            - generic [ref=f4e388]: 200+
+            - generic [ref=f4e389]: Countries Served
+  - contentinfo [ref=f4e390]:
+    - generic [ref=f4e391]:
+      - generic [ref=f4e392]:
+        - generic [ref=f4e393]:
+          - link "Deco Supplier" [ref=f4e394] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f4e399]: Factory-direct PVC decorative film, LVT flooring, and wall panel supplier with OEM/ODM production and export support.
+          - generic [ref=f4e400]:
+            - link "LinkedIn" [ref=f4e401] [cursor=pointer]:
+              - /url: https://linkedin.com/company/decosupplier
+            - link "Twitter" [ref=f4e404] [cursor=pointer]:
+              - /url: https://twitter.com/decosupplier
+            - link "Facebook" [ref=f4e407] [cursor=pointer]:
+              - /url: https://facebook.com/decosupplier
+        - generic [ref=f4e410]:
+          - heading "Quick Links" [level=3] [ref=f4e411]
+          - list [ref=f4e412]:
+            - listitem [ref=f4e413]:
+              - link "Home" [ref=f4e414] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f4e415]:
+              - link "Products" [ref=f4e416] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f4e417]:
+              - link "About" [ref=f4e418] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=f4e419]:
+              - link "Service" [ref=f4e420] [cursor=pointer]:
+                - /url: /service
+            - listitem [ref=f4e421]:
+              - link "Blog" [ref=f4e422] [cursor=pointer]:
+                - /url: /Blog
+            - listitem [ref=f4e423]:
+              - link "Contact" [ref=f4e424] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=f4e425]:
+          - heading "Products" [level=3] [ref=f4e426]
+          - list [ref=f4e427]:
+            - listitem [ref=f4e428]:
+              - link "All Products All Products" [ref=f4e429] [cursor=pointer]:
+                - /url: /products
+                - img "All Products" [ref=f4e430]
+                - generic [ref=f4e431]: All Products
+            - listitem [ref=f4e432]:
+              - link "PVC Decorative Film PVC Decorative Film" [ref=f4e433] [cursor=pointer]:
+                - /url: /products/pvc-decorative-film
+                - img "PVC Decorative Film" [ref=f4e434]
+                - generic [ref=f4e435]: PVC Decorative Film
+            - listitem [ref=f4e436]:
+              - link "LVT Flooring LVT Flooring" [ref=f4e437] [cursor=pointer]:
+                - /url: /products/lvt-flooring
+                - img "LVT Flooring" [ref=f4e438]
+                - generic [ref=f4e439]: LVT Flooring
+            - listitem [ref=f4e440]:
+              - link "SPC Wall Panels SPC Wall Panels" [ref=f4e441] [cursor=pointer]:
+                - /url: /products/spc-wall-panels
+                - img "SPC Wall Panels" [ref=f4e442]
+                - generic [ref=f4e443]: SPC Wall Panels
+            - listitem [ref=f4e444]:
+              - link "Interior Refinishing Film Interior Refinishing Film" [ref=f4e445] [cursor=pointer]:
+                - /url: /products/interior-refinishing-film
+                - img "Interior Refinishing Film" [ref=f4e446]
+                - generic [ref=f4e447]: Interior Refinishing Film
+            - listitem [ref=f4e448]:
+              - link "Self-Adhesive Foam Wall Panels Self-Adhesive Foam Wall Panels" [ref=f4e449] [cursor=pointer]:
+                - /url: /products/self-adhesive-foam-wall-panels
+                - img "Self-Adhesive Foam Wall Panels" [ref=f4e450]
+                - generic [ref=f4e451]: Self-Adhesive Foam Wall Panels
+            - listitem [ref=f4e452]:
+              - link "3D PVC Wall Panels 3D PVC Wall Panels" [ref=f4e453] [cursor=pointer]:
+                - /url: /products/3d-pvc-wall-panels
+                - img "3D PVC Wall Panels" [ref=f4e454]
+                - generic [ref=f4e455]: 3D PVC Wall Panels
+            - listitem [ref=f4e456]:
+              - link "Peel & Stick Wallpapers Peel & Stick Wallpapers" [ref=f4e457] [cursor=pointer]:
+                - /url: /products/peel-and-stick-wallpapers
+                - img "Peel & Stick Wallpapers" [ref=f4e458]
+                - generic [ref=f4e459]: Peel & Stick Wallpapers
+        - generic [ref=f4e460]:
+          - heading "Get Started" [level=3] [ref=f4e461]
+          - list [ref=f4e462]:
+            - listitem [ref=f4e463]:
+              - link "Request a Quote" [ref=f4e464] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=f4e465]:
+              - link "About Our Factory" [ref=f4e466] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=f4e467]:
+              - link "Blog & Insights" [ref=f4e468] [cursor=pointer]:
+                - /url: /Blog
+          - link "Get Started" [ref=f4e470] [cursor=pointer]:
+            - /url: /contact
+      - generic [ref=f4e472]:
+        - paragraph [ref=f4e473]: © 2026 DecoSupplier. All rights reserved.
+        - generic [ref=f4e474]:
+          - link "Privacy Policy" [ref=f4e475] [cursor=pointer]:
+            - /url: /privacy
+          - generic [ref=f4e476]: •
+          - link "Terms of Service" [ref=f4e477] [cursor=pointer]:
+            - /url: /terms
+          - generic [ref=f4e478]: •
+          - link "Cookie Policy" [ref=f4e479] [cursor=pointer]:
+            - /url: /cookies
+  - generic [ref=f4e482]:
+    - button [ref=f4e483]
+    - button [ref=f4e489]
+    - button [ref=f4e493]
+    - button [ref=f4e498]

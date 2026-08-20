@@ -1,0 +1,559 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { Icon } from 'astro-iconset/components';
+import { getProductCategories, getProductsByCategory, type ProductListItem } from '@/utils/nocobaseCategories';
+import { SITE } from '@config/site';
+
+const uniqueValues = (values: string[]) => [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+
+export const getStaticPaths = async () => {
+  const categories = await getProductCategories();
+  const paths = await Promise.all(categories.map(async (category) => {
+    const products = await getProductsByCategory(category.id);
+    const categorySlug = category.href.replace(/^\/products\//, '').replace(/^\/|\/$/g, '');
+
+    return products.map((product) => {
+      const seriesKey = product.collectionId
+        ? `id:${product.collectionId}`
+        : `name:${product.collectionName || product.patternType}`.toLowerCase();
+      const seriesProducts = products.filter((item) => {
+        const itemSeriesKey = item.collectionId
+          ? `id:${item.collectionId}`
+          : `name:${item.collectionName || item.patternType}`.toLowerCase();
+
+        return itemSeriesKey === seriesKey;
+      });
+
+      return {
+        params: { categorySlug, productSlug: product.slug },
+        props: {
+          category,
+          product,
+          categoryProducts: products,
+          seriesProducts,
+        },
+      };
+    });
+  }));
+
+  return paths.flat();
+};
+
+const { category, product, categoryProducts = [], seriesProducts = [] } = Astro.props;
+
+if (!category || !product) {
+  return Astro.redirect('/404');
+}
+
+const categoryPath = category.href;
+const activeSeriesProducts = seriesProducts.length > 0 ? seriesProducts : [product];
+const description = product.description
+  || product.collectionDescription
+  || `${product.name} is part of the ${category.name} range. Review matching SKU options, surface details, sourcing terms, and product images for factory-direct sampling and quotation.`;
+
+const optionSizes = uniqueValues(activeSeriesProducts.flatMap((item) => item.sizes || []));
+const optionThicknesses = uniqueValues(activeSeriesProducts.flatMap((item) => item.thicknesses || []));
+const sizeOptions = optionSizes.length > 0 ? optionSizes : ['60*60cm', '60*15cm', '91.52*15.2cm', '30*30cm', '45*15cm', '45.75*45.75cm'];
+const thicknessOptions = optionThicknesses.length > 0 ? optionThicknesses : ['1.5mm', '1.6mm', '1.8mm', '2.0mm', '3.0mm'];
+const finishes = uniqueValues(activeSeriesProducts.map((item) => item.finish));
+const productNumber = product.supplyCode && product.supplyCode !== product.productCode
+  ? product.supplyCode
+  : `DECO-${product.productCode}`;
+const moq = product.moq || '500 sqm';
+const leadTime = product.leadTime || '15-20 days';
+const tradeTerms = product.tradeTerms || 'FOB China';
+const primaryFinish = product.finish || finishes[0] || 'Matte / Gloss / Textured';
+const relatedProducts = activeSeriesProducts
+  .filter((item) => item.id !== product.id)
+  .concat(categoryProducts.filter((item: ProductListItem) => item.id !== product.id && !activeSeriesProducts.some((seriesItem) => seriesItem.id === item.id)))
+  .slice(0, 4);
+
+const specificationRows = [
+  ['Product Number', productNumber],
+  ['Product Construction', `${category.name} decorative surface material`],
+  ['Class / Standard', product.patternType !== 'Other' ? `${product.patternType} finish series` : 'Factory supply series'],
+  ['Color Family', product.colorFamily],
+  ['Available Sizes', sizeOptions.join(' / ')],
+  ['Thickness Range', thicknessOptions.join(' / ')],
+  ['Surface Finish', primaryFinish],
+  ['Series', product.collectionName],
+].filter(([, value]) => value && value !== 'Other');
+
+const performanceRows = [
+  ['MOQ', moq],
+  ['Lead Time', leadTime],
+  ['Trade Terms', tradeTerms],
+  ['Sample Support', 'Available for colour, pattern, and structure confirmation'],
+];
+
+const featureRows = [
+  'Factory-direct sourcing with stable category supply.',
+  'Multiple SKU colours or patterns presented under one product series.',
+  'Suitable for sample confirmation before bulk production.',
+  'OEM/ODM specifications can be confirmed through quotation.',
+];
+
+const faqItems = [
+  {
+    question: `What is the MOQ for ${product.collectionName || product.name}?`,
+    answer: `Standard MOQ is ${moq} per pattern or colour. Trial sample orders can be discussed with the sales team.`,
+  },
+  {
+    question: 'What is the lead time?',
+    answer: `Typical production lead time is ${leadTime} after sample confirmation and order approval.`,
+  },
+  {
+    question: 'What are the trade terms?',
+    answer: `Regular export quotation uses ${tradeTerms}. Final terms depend on destination port, order quantity, and quotation confirmation.`,
+  },
+  {
+    question: 'Can thickness and size be customized?',
+    answer: 'Yes. Send the target application, dimensions, thickness, finish, and order quantity so the factory team can confirm available options.',
+  },
+];
+
+const additionalProperties = specificationRows.map(([label, value]) => ({
+  '@type': 'PropertyValue',
+  name: label,
+  value,
+}));
+
+const productSchemaData = {
+  name: product.name,
+  description,
+  image: product.productImage.src,
+  sku: product.productCode,
+  mpn: product.supplyCode,
+  category: category.name,
+  url: new URL(`${categoryPath}/${product.slug}`, SITE.url).href,
+  additionalProperty: additionalProperties,
+};
+
+const colorSwatches: Record<string, string> = {
+  'Brown/Tan': '#a17047',
+  Grey: '#6f7b86',
+  'Cream/Beige': '#d7c6aa',
+  Black: '#334155',
+  'Yellow/Gold': '#c69b36',
+  'Orange/Rust': '#b86436',
+  Green: '#6f8a4f',
+  'Red/Pink': '#b85a5f',
+  Blue: '#426b95',
+  'Teal/Turquoise': '#43857f',
+  Purple: '#75608f',
+  Other: '#94a3b8',
+};
+const currentColor = colorSwatches[product.colorFamily] || colorSwatches.Other;
+const productGalleryImages = [
+  { src: product.productImage.src, alt: `${product.name} main product view` },
+  ...product.relatedImages.map((image, index) => ({
+    src: image.src,
+    alt: image.alt || `${product.name} related view ${index + 1}`,
+  })),
+].filter((image, index, images) => image.src && images.findIndex((item) => item.src === image.src) === index);
+---
+
+<BaseLayout
+  title={`${product.name} - ${category.name}`}
+  description={description}
+  ogImage={product.productImage.src}
+  schemaType="Product"
+  schemaData={productSchemaData}
+  faqItems={faqItems}
+  breadcrumbs={[
+    { name: 'Products', url: '/products' },
+    { name: category.name, url: categoryPath },
+    { name: product.name, url: `${categoryPath}/${product.slug}` },
+  ]}
+>
+  <section class="bg-white pt-8 md:pt-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="mb-7 flex flex-wrap items-center gap-y-2 text-sm text-slate-500" aria-label="Breadcrumb">
+        <a href="/" class="transition-colors hover:text-[var(--color-primary-700)]">Home</a>
+        <Icon name="lucide:chevron-right" class="mx-2 h-4 w-4 text-slate-300" />
+        <a href="/products" class="transition-colors hover:text-[var(--color-primary-700)]">Products</a>
+        <Icon name="lucide:chevron-right" class="mx-2 h-4 w-4 text-slate-300" />
+        <a href={categoryPath} class="transition-colors hover:text-[var(--color-primary-700)]">{category.name}</a>
+        <Icon name="lucide:chevron-right" class="mx-2 h-4 w-4 text-slate-300" />
+        <span class="font-semibold text-slate-900" aria-current="page">{product.collectionName || product.name}</span>
+      </nav>
+
+      <div class="grid grid-cols-1 gap-8 pb-16 lg:grid-cols-[minmax(0,0.98fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16">
+        <div data-product-gallery>
+          <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-200/60">
+            <span class="absolute left-4 top-4 z-10 rounded-md border border-slate-200 bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm backdrop-blur">
+              SKU: {product.productCode} {product.colorFamily !== 'Other' ? product.colorFamily : ''}
+            </span>
+            <img
+              data-gallery-main
+              src={product.productImage.src}
+              alt={`${product.name} main product view`}
+              class="h-full w-full object-cover"
+              width="960"
+              height="720"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+
+          {product.relatedImages.length > 0 && (
+            <div class="mt-3">
+              <div class="grid grid-cols-4 gap-2.5 sm:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5" aria-label="Product gallery thumbnails">
+                {productGalleryImages.map((image, index) => {
+                  const isMain = index === 0;
+                  return (
+                    <button
+                      type="button"
+                      data-gallery-thumb
+                      data-gallery-src={image.src}
+                      data-gallery-alt={image.alt}
+                      class:list={[
+                        'group relative block aspect-square overflow-hidden rounded-md border-2 bg-slate-100 outline-none transition focus:ring-2 focus:ring-[var(--color-primary-500)] focus:ring-offset-2',
+                        isMain ? 'border-[var(--color-primary-500)] shadow-md' : 'border-transparent hover:border-slate-300',
+                      ]}
+                      aria-pressed={isMain ? 'true' : 'false'}
+                    >
+                      <img src={image.src} alt={image.alt} class="h-full w-full object-cover" loading="lazy" />
+                      <span class="absolute bottom-0 left-0 right-0 truncate bg-black/60 px-1.5 py-0.5 text-center text-[10px] font-medium text-white backdrop-blur-sm">
+                        {isMain ? 'Main' : 'View'}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div class="flex min-w-0 flex-col justify-center">
+          <h1 class="text-3xl font-bold leading-tight tracking-normal text-slate-950 md:text-[2.75rem] lg:text-5xl">{product.collectionName || product.name}</h1>
+          <p class="mt-4 max-w-3xl text-sm leading-6 text-slate-600 md:text-[15px] md:leading-6">{description}</p>
+
+          <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Product Code</div>
+              <div class="mt-1 text-xl font-bold text-slate-900">{product.productCode}</div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Colour</div>
+              <div class="mt-1 inline-flex min-h-8 items-center gap-2 rounded-full border border-[var(--color-secondary-200)] bg-[var(--color-secondary-50)] px-3 text-xs font-medium text-slate-700">
+                <span class="h-3 w-3 rounded-full" style={`background:${currentColor}`} aria-hidden="true"></span>
+                {product.colorFamily}
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Pattern Type</div>
+              <div class="mt-1 inline-flex min-h-8 items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 text-xs font-medium text-slate-700">
+                <Icon name="lucide:shapes" class="h-3.5 w-3.5 text-slate-500" />
+                {product.patternType}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <div class="flex flex-wrap gap-[10px]" aria-label="Series SKU options">
+              {activeSeriesProducts.map((item) => {
+                const isCurrent = item.id === product.id;
+                return (
+                  <a
+                    href={`${categoryPath}/${item.slug}`}
+                    class:list={[
+                      'group relative block w-fit rounded-md outline-none transition focus:ring-2 focus:ring-[var(--color-primary-500)] focus:ring-offset-2',
+                      isCurrent ? 'pointer-events-none' : '',
+                    ]}
+                    aria-current={isCurrent ? 'true' : undefined}
+                  >
+                    <span class:list={[
+                      'mx-auto block h-[60px] w-[60px] overflow-hidden rounded-md border-2 bg-slate-100 transition',
+                      isCurrent ? 'border-[var(--color-primary-600)] shadow-md' : 'border-transparent group-hover:border-slate-300',
+                    ]}>
+                      <img src={item.productImage.src} alt={item.name} class="h-full w-full object-cover" loading="lazy" />
+                    </span>
+                    {isCurrent && (
+                      <span class="absolute right-0 top-0 grid h-5 w-5 place-items-center rounded-bl-md rounded-tr-md bg-[var(--color-primary-600)] text-white">
+                        <Icon name="lucide:check" class="h-3.5 w-3.5" />
+                      </span>
+                    )}
+                    <span class="mt-1 block text-center text-[11px] font-bold leading-tight text-slate-700">{item.productCode}</span>
+                    <span class="block truncate text-center text-[10px] leading-tight text-slate-500">{item.colorFamily}</span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4">
+            <div>
+              <h2 class="text-[13px] font-semibold uppercase tracking-[0.18em] text-slate-400">Size</h2>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {sizeOptions.map((size) => <span class="rounded-md border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-[13px] font-medium leading-4 text-slate-700">{size}</span>)}
+              </div>
+            </div>
+            <div>
+              <h2 class="text-[13px] font-semibold uppercase tracking-[0.18em] text-slate-400">Thickness</h2>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {thicknessOptions.map((thickness) => <span class="rounded-md border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-[13px] font-medium leading-4 text-slate-700">{thickness}</span>)}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 grid min-h-[65px] overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-sm sm:grid-cols-3">
+            {[
+              ['MOQ', moq],
+              ['Lead Time', leadTime],
+              ['Trade Terms', tradeTerms],
+            ].map(([label, value]) => (
+              <div class="flex min-h-[65px] flex-col items-center justify-center border-b border-slate-200 p-[12px] text-center last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+                <div class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">{label}</div>
+                <div class="mt-0 text-[15px] font-bold leading-6 text-slate-900">{value}</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+            <a href={`/contact?product=${encodeURIComponent(product.name)}&code=${encodeURIComponent(product.productCode)}`} class="inline-flex min-h-12 w-fit items-center justify-center gap-2.5 rounded-md bg-linear-to-r from-[var(--color-primary-600)] to-[var(--color-secondary-600)] px-6 text-base font-bold text-white shadow-lg shadow-slate-200 transition hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:ring-offset-2 sm:w-[182px]">
+              <Icon name="lucide:send" class="h-5 w-5" />
+              Send Inquiry
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sticky top-0 z-30 border-y border-slate-200 bg-white/95 shadow-sm backdrop-blur" aria-label="Product detail sections">
+    <div class="container mx-auto flex gap-8 overflow-x-auto px-4 sm:px-6 lg:px-8">
+      {[
+        ['Product Details', '#product-details'],
+        ['Sourcing', '#sourcing'],
+        ['FAQ', '#faq'],
+        ['Related', '#related'],
+      ].map(([label, href]) => (
+        <a href={href} class="detail-anchor whitespace-nowrap py-5 text-sm font-bold text-slate-600 transition hover:text-[var(--color-primary-700)]">{label}</a>
+      ))}
+    </div>
+  </nav>
+
+  <section id="product-details" class="scroll-mt-24 bg-white py-16 md:py-24">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold tracking-normal text-slate-950 md:text-5xl">Product Details</h2>
+
+      <div class="mt-10 space-y-5">
+        <details class="rounded-lg border border-slate-200 bg-white shadow-sm" open>
+          <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-xl font-bold text-slate-900">
+            Specifications
+            <Icon name="lucide:chevron-down" class="h-5 w-5 text-slate-400 transition details-chevron" />
+          </summary>
+          <div class="border-t border-slate-200 px-6 py-5">
+            <dl class="divide-y divide-slate-100">
+              {specificationRows.map(([label, value]) => (
+                <div class="grid gap-2 py-4 md:grid-cols-[minmax(180px,0.4fr)_1fr]">
+                  <dt class="font-semibold text-slate-700">{label}</dt>
+                  <dd class="text-slate-600">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </details>
+
+        <details class="rounded-lg border border-slate-200 bg-white shadow-sm">
+          <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-xl font-bold text-slate-900">
+            Performance
+            <Icon name="lucide:chevron-down" class="h-5 w-5 text-slate-400 transition details-chevron" />
+          </summary>
+          <div class="border-t border-slate-200 px-6 py-5">
+            <dl class="divide-y divide-slate-100">
+              {performanceRows.map(([label, value]) => (
+                <div class="grid gap-2 py-4 md:grid-cols-[minmax(180px,0.4fr)_1fr]">
+                  <dt class="font-semibold text-slate-700">{label}</dt>
+                  <dd class="text-slate-600">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </details>
+
+        <details class="rounded-lg border border-slate-200 bg-white shadow-sm">
+          <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-xl font-bold text-slate-900">
+            Features
+            <Icon name="lucide:chevron-down" class="h-5 w-5 text-slate-400 transition details-chevron" />
+          </summary>
+          <div class="border-t border-slate-200 px-6 py-5">
+            <ul class="grid gap-3 md:grid-cols-2">
+              {featureRows.map((feature) => (
+                <li class="flex items-start gap-3 text-slate-600">
+                  <Icon name="lucide:check-circle-2" class="mt-0.5 h-5 w-5 shrink-0 text-[var(--color-secondary-600)]" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
+
+        <details class="rounded-lg border border-slate-200 bg-white shadow-sm">
+          <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-xl font-bold text-slate-900">
+            Documentation
+            <Icon name="lucide:chevron-down" class="h-5 w-5 text-slate-400 transition details-chevron" />
+          </summary>
+          <div class="border-t border-slate-200 px-6 py-5 text-slate-600">
+            Product data sheets, sample images, and quotation documents are available after inquiry confirmation.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="sourcing" class="scroll-mt-24 bg-slate-50 py-16 md:py-24">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold tracking-normal text-slate-950 md:text-5xl">Sourcing Information</h2>
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        {[
+          ['lucide:package', 'MOQ', `${moq} per pattern/color. Sample order support available.`],
+          ['lucide:clock-3', 'Lead Time', `${leadTime} after sample sign-off and order confirmation.`],
+          ['lucide:globe-2', 'Trade Terms', `${tradeTerms}. Port and logistics terms confirmed in the formal quote.`],
+        ].map(([icon, label, value]) => (
+          <article class="rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
+            <div class="flex items-start gap-5">
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-[var(--color-primary-50)] text-[var(--color-primary-700)]">
+                <Icon name={icon} class="h-6 w-6" />
+              </span>
+              <div>
+                <h3 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400">{label}</h3>
+                <p class="mt-1 text-lg font-bold leading-7 text-slate-900">{value}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="scroll-mt-24 bg-white py-16 md:py-24">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold tracking-normal text-slate-950 md:text-5xl">Frequently Asked Questions</h2>
+      <div class="mt-10 space-y-5">
+        {faqItems.map((faq) => (
+          <details class="rounded-lg border border-slate-200 bg-white shadow-sm">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 px-6 py-5 text-lg font-bold text-slate-800">
+              {faq.question}
+              <Icon name="lucide:chevron-down" class="h-5 w-5 shrink-0 text-slate-400 transition details-chevron" />
+            </summary>
+            <p class="border-t border-slate-200 px-6 py-5 leading-7 text-slate-600">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {relatedProducts.length > 0 && (
+    <section id="related" class="scroll-mt-24 bg-slate-50 py-16 md:py-24">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold tracking-normal text-slate-950 md:text-5xl">You May Also Like</h2>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedProducts.map((item) => (
+            <a href={`${categoryPath}/${item.slug}`} class="group overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <span class="block aspect-[4/3] overflow-hidden bg-slate-100">
+                <img src={item.productImage.src} alt={item.name} class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              </span>
+              <span class="flex items-center gap-3 p-4">
+                <span class="h-11 w-11 shrink-0 overflow-hidden bg-slate-100">
+                  <img src={item.productImage.src} alt="" class="h-full w-full object-cover" loading="lazy" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block truncate text-sm font-bold text-slate-900 group-hover:text-[var(--color-primary-700)]">{item.name}</span>
+                  <span class="mt-1 flex flex-wrap gap-1">
+                    <span class="rounded bg-[var(--color-primary-100)] px-2 py-0.5 text-xs font-semibold text-[var(--color-primary-700)]">{item.productCode}</span>
+                    <span class="rounded bg-[var(--color-secondary-100)] px-2 py-0.5 text-xs font-semibold text-[var(--color-secondary-700)]">{item.colorFamily}</span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="bg-[var(--color-primary-950)] py-16 text-white">
+    <div class="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold md:text-5xl">Interested in <span class="text-[var(--color-secondary-300)]">{product.collectionName || product.name}</span>?</h2>
+      <p class="mx-auto mt-5 max-w-3xl text-lg text-slate-300">Contact the DecoSupplier sales team for samples and factory-direct quotes.</p>
+      <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+        <a href={`/contact?product=${encodeURIComponent(product.name)}&code=${encodeURIComponent(product.productCode)}`} class="inline-flex min-h-14 items-center justify-center gap-3 rounded-md bg-white px-8 text-base font-bold text-slate-900 transition hover:bg-slate-100">
+          <Icon name="lucide:package" class="h-5 w-5" />
+          Get Free Samples
+        </a>
+        <a href={`/contact?product=${encodeURIComponent(product.name)}&code=${encodeURIComponent(product.productCode)}`} class="inline-flex min-h-14 items-center justify-center gap-3 rounded-md border-2 border-white px-8 text-base font-bold text-white transition hover:bg-white/10">
+          <Icon name="lucide:send" class="h-5 w-5" />
+          Send Inquiry
+        </a>
+      </div>
+      <p class="mt-6 text-sm text-slate-400">We respond to all inquiries within 24 hours.</p>
+    </div>
+  </section>
+
+  <style>
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details[open] .details-chevron {
+      transform: rotate(180deg);
+    }
+
+    .detail-anchor[aria-current='true'] {
+      color: var(--color-primary-700);
+    }
+  </style>
+
+  <script>
+    const galleryMain = document.querySelector<HTMLImageElement>('[data-gallery-main]');
+    const galleryThumbs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gallery-thumb]'));
+
+    const setActiveThumb = (activeThumb) => {
+      if (!galleryMain) return;
+
+      const nextSrc = activeThumb.dataset.gallerySrc;
+      const nextAlt = activeThumb.dataset.galleryAlt || '';
+      if (!nextSrc) return;
+
+      galleryMain.src = nextSrc;
+      galleryMain.alt = nextAlt;
+
+      galleryThumbs.forEach((thumb) => {
+        const isActive = thumb === activeThumb;
+        thumb.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        thumb.classList.toggle('border-[var(--color-primary-500)]', isActive);
+        thumb.classList.toggle('shadow-md', isActive);
+        thumb.classList.toggle('border-transparent', !isActive);
+        thumb.classList.toggle('border-slate-300', !isActive);
+      });
+    };
+
+    galleryThumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => setActiveThumb(thumb));
+    });
+
+    if (galleryThumbs.length > 0) {
+      setActiveThumb(galleryThumbs[0]);
+    }
+
+    const anchors = Array.from(document.querySelectorAll<HTMLAnchorElement>('.detail-anchor'));
+    const sections = anchors
+      .map((anchor) => document.querySelector<HTMLElement>(anchor.hash))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    const setActiveAnchor = () => {
+      let current = sections[0];
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) current = section;
+      });
+      anchors.forEach((anchor) => {
+        anchor.setAttribute('aria-current', anchor.hash === `#${current.id}` ? 'true' : 'false');
+      });
+    };
+
+    setActiveAnchor();
+    window.addEventListener('scroll', setActiveAnchor, { passive: true });
+  </script>
+</BaseLayout>

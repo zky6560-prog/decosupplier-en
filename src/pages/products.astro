@@ -1,0 +1,718 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import CapabilityAccordion from '../components/react/CapabilityAccordion';
+import { Image } from 'astro:assets';
+import ImageReveal from '../components/react/ImageReveal';
+import ProductNavigation from '@components/react/ProductNavigation';
+
+import warehouseImg from '@assets/photo-1566576721346-d4a3b4eaeb55.jpg';
+import manufacturingImg from '@assets/photo-1581091226825-a6a2a5aee158.jpg';
+import transportationImg from '@assets/photo-1601584115197-04ecc0da31d7.jpg';
+import supplyChainImg from '@assets/photo-1460925895917-afdab827c52f.jpg';
+import valueAddedServicesImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
+import technologyIntegrationImg from '@assets/photo-1558494949-ef010cbdcc31.jpg';
+import heroBgImg from '@assets/7-product-lines-one-factory.png';
+import ctaBgImg from '@assets/photo-1553413077-190dd305871c.jpg';
+
+// 产品主图
+import pvcFilmImg from '@assets/pvc-decorative-film.jpg';
+import lvtFlooringImg from '@assets/lvt-flooring.jpg';
+import pvcPanelImg from '@assets/pvc-wall-panel.jpg';
+import selfAdhesiveFilmImg from '@assets/interior-self-adhesive-film.jpg';
+import foamWallpaperImg from '@assets/self-adhesive-foam-wall-roll.png';
+import pvc3dImg from '@assets/3d-pvc-wall-panel.jpg';
+import wallpapersImg from '@assets/peel-stick-wallpapers.png';
+
+// ===== 产品图片和场景图路径（用于缩略图） =====
+// 产品图（从public/assets/product取）
+const productImagePaths = [
+  '/assets/product/product (1).jpg',
+  '/assets/product/product (2).jpg',
+  '/assets/product/product (3).jpg',
+  '/assets/product/product (4).jpg',
+  '/assets/product/product (5).jpg',
+  '/assets/product/product (6).jpg',
+  '/assets/product/product (7).jpg',
+  '/assets/product/product (8).jpg',
+  '/assets/product/product (9).jpg',
+];
+// 场景图（从public/assets/show取）
+const showImagePaths = [
+  '/assets/show/show (1).jpg',
+  '/assets/show/show (2).jpg',
+  '/assets/show/show (3).jpg',
+  '/assets/show/show (4).jpg',
+  '/assets/show/show (5).jpg',
+  '/assets/show/show (6).jpg',
+  '/assets/show/show (7).jpg',
+  '/assets/show/show (8).jpg',
+  '/assets/show/show (9).jpg',
+  '/assets/show/show (10).jpg',
+  '/assets/show/show (11).jpg',
+  '/assets/show/show (12).jpg',
+  '/assets/show/show (13).jpg',
+  '/assets/show/show (14).jpg',
+  '/assets/show/show (15).jpg',
+  '/assets/show/show (16).jpg',
+  '/assets/show/show (17).jpg',
+  '/assets/show/show (18).jpg',
+  '/assets/show/show (19).jpg',
+  '/assets/show/show (20).jpg',
+];
+
+// 场景文字描述
+const sceneCaptions = [
+  'Kitchen Cabinets – Warm and inviting',
+  'Living Room Feature Wall – Modern elegance',
+  'Commercial Office Space – Professional finish',
+  'Bedroom Headboard – Cozy texture',
+  'Bathroom Vanity – Waterproof durability',
+  'Restaurant Interior – Stylish ambiance',
+  'Retail Display – Eye-catching design',
+  'Hotel Lobby – Luxury feel',
+];
+
+// ===== 为每个产品生成缩略图数据 =====
+function getGalleryForProduct(productIndex: number, mainImageSrc: string) {
+  // 固定使用4张图：1张产品图 + 3张场景图
+  const gallery: { src: string; caption: string; type: 'product' | 'scene' }[] = [];
+  // 第一张：产品主图
+  gallery.push({
+    src: mainImageSrc,
+    caption: 'Product Main View',
+    type: 'product',
+  });
+  // 再取3张场景图（基于索引偏移）
+  for (let i = 0; i < 3; i++) {
+    const idx = (productIndex * 3 + i) % showImagePaths.length;
+    const captionIdx = (productIndex * 3 + i) % sceneCaptions.length;
+    gallery.push({
+      src: showImagePaths[idx],
+      caption: sceneCaptions[captionIdx],
+      type: 'scene',
+    });
+  }
+  return gallery;
+}
+
+// ===== 产品数据 =====
+const products = [
+  {
+    title: 'PVC Decorative Film',
+    description: 'High-performance surface wrapping and vacuum pressing films for furniture, kitchen cabinets, and interior doors — available in wood grain, marble, and solid color finishes with superior scratch and stain resistance.',
+    href: '/products/pvc-decorative-film',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z M14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z M4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z M14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+    </svg>`,
+    image: pvcFilmImg,
+    features: [
+      'Wood grain / marble / solid colors',
+      'Scratch & stain resistant',
+      'Wrapping & vacuum press compatible',
+      'Multiple thickness options'
+    ]
+  },
+  {
+    title: 'Peel and Stick Vinyl Flooring',
+    description: 'Premium luxury vinyl tile flooring for commercial and residential spaces — featuring realistic wood and stone visuals, exceptional durability, acoustic comfort, and easy maintenance.',
+    href: '/products/lvt-flooring',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>`,
+    image: lvtFlooringImg,
+    features: [
+      'Waterproof & scratch-resistant',
+      'Acoustic underlayment options',
+      'Commercial & residential grades',
+      'Wide plank & tile formats'
+    ]
+  },
+  {
+    title: 'PVC Wall Panel',
+    description: 'Stone plastic composite wall panels — waterproof, moisture-proof, and quick-install. Ideal for residential renovations and commercial wall cladding with a modern, seamless finish.',
+    href: '/products/pvc_wall_panel',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    </svg>`,
+    image: pvcPanelImg,
+    features: [
+      '100% waterproof & moisture-proof',
+      'Quick-install click system',
+      'UV-coated surface protection',
+      'Suitable for high-humidity areas'
+    ]
+  },
+  {
+    title: 'Self-Adhesive Decorative Film',
+    description: 'Self-adhesive refinishing film for easy surface renovation — perfect for updating kitchen cabinets, furniture, walls, and countertops without the mess of traditional renovation.',
+    href: '/products/interior-self-adhesive-film',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+    </svg>`,
+    image: selfAdhesiveFilmImg,
+    features: [
+      'Self-adhesive peel-and-stick',
+      'Residue-free removal',
+      'Matte / gloss / textured finishes',
+      'DIY-friendly application'
+    ]
+  },
+  {
+    title: 'Self-adhesive Foam Wallpaper Roll',
+    description: 'Lightweight 3D texture foam panels with sound absorption and thermal insulation — soft, impact-resistant, and easy to install for accent walls, feature spaces, and commercial interiors.',
+    href: '/products/self-adhesive-foam-wall-panels',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>`,
+    image: foamWallpaperImg,
+    features: [
+      'Sound & heat insulation',
+      'Soft impact-resistant surface',
+      '3D geometric & organic patterns',
+      'Easy DIY wall installation'
+    ]
+  },
+  {
+    title: '3D PVC Wall Panel',
+    description: 'Sculptural three-dimensional wall panels for feature walls, lobbies, and hospitality spaces — lightweight, durable, and available in modern geometric designs that create stunning visual impact.',
+    href: '/products/3d-pvc-wall-panels',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+    </svg>`,
+    image: pvc3dImg,
+    features: [
+      'Sculptural 3D designs',
+      'Lightweight & impact-resistant',
+      'Commercial-grade durability',
+      'Easy wall mounting system'
+    ]
+  },
+  {
+    title: 'Peel & Stick Wallpapers',
+    description: 'DIY-friendly peel-and-stick wallpapers — renter-friendly, removable without residue, and available in hundreds of patterns, from florals to geometrics, for instant room makeovers.',
+    href: '/products/peel-and-stick-wallpapers',
+    icon: `<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+    </svg>`,
+    image: wallpapersImg,
+    features: [
+      'Removable without residue',
+      'Hundreds of patterns & colors',
+      'DIY peel-and-stick application',
+      'Renter & homeowner friendly'
+    ]
+  }
+];
+
+// ===== 为每个产品生成缩略图数据（桌面端使用） =====
+const productsWithGallery = products.map((product, index) => {
+  // 获取主图src（Image对象转为字符串路径）
+  const mainSrc = product.image.src || '';
+  const gallery = getGalleryForProduct(index, mainSrc);
+  return {
+    ...product,
+    gallery,
+  };
+});
+
+// ===== FAQ 数据（10个问题） =====
+const faqs = [
+  {
+    question: 'What is the minimum order quantity (MOQ) for PVC decorative film?',
+    answer: 'Our standard MOQ is 1500 meters per pattern and color. For first-time cooperation, we support small-batch trial orders to help you evaluate our quality.'
+  },
+  {
+    question: 'Can I get free samples before placing a bulk order?',
+    answer: 'Yes, we provide free samples for quality evaluation. You only need to cover the shipping cost. Sample delivery typically takes 3-7 days via international express.'
+  },
+  {
+    question: 'What are the available thickness options for PVC decorative film?',
+    answer: 'Our PVC decorative film thickness ranges from 0.12mm to 0.45mm, with customized tolerances ≤ 0.01mm. Specific thickness can be tailored to your application requirements.'
+  },
+  {
+    question: 'How long is the typical production lead time?',
+    answer: 'Standard production lead time is 15-20 days after cylinder proofing and sample sign-off. For urgent orders, we can accommodate expedited schedules upon request.'
+  },
+  {
+    question: 'Can you customize patterns and colors for my brand?',
+    answer: 'Absolutely. We support custom pattern development, color matching, and private labeling (OEM/ODM). Our team works closely with you to bring your design vision to life.'
+  },
+  {
+    question: 'What surface finishes are available for your products?',
+    answer: 'We offer a variety of surface finishes including matte, gloss, textured wood-grain, high-gloss UV coated, and embossed finishes to meet different aesthetic and functional requirements.'
+  },
+  {
+    question: 'What certifications do your products hold?',
+    answer: 'Our products are RoHS compliant, formaldehyde-free, and low VOC. We also hold ISO 9001 quality management certification, ensuring consistent product quality across all batches.'
+  },
+  {
+    question: 'What are your shipping and trade terms?',
+    answer: 'We operate on FOB China Port terms (Yiwu, Shanghai, Ningbo). We can also accommodate CIF and EXW upon request. We handle all shipping arrangements and customs documentation.'
+  },
+  {
+    question: 'What is the expected lifespan of LVT flooring?',
+    answer: 'Our LVT flooring typically lasts 10-15 years under normal use conditions. The wear layer thickness and maintenance practices are key factors influencing longevity.'
+  },
+  {
+    question: 'Are PVC wall panels suitable for bathrooms, kitchens, and basements?',
+    answer: 'Yes, PVC wall panels are 100% waterproof and moisture-proof, making them ideal for bathrooms, kitchens, and other high-humidity areas where traditional wall materials may fail.'
+  }
+];
+
+const productSchemaUrls = [
+  '/products/pvc-decorative-film',
+  '/products/lvt-flooring',
+  '/products/pvc_wall_panel',
+  '/products/interior-self-adhesive-film',
+  '/products#product-4',
+  '/products#product-5',
+  '/products#product-6',
+];
+
+const productItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'DecoSupplier Product Series',
+  description: 'Decorative surface material product categories supplied by DecoSupplier.',
+  itemListElement: products.map((product, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: productSchemaUrls[index],
+    item: {
+      '@type': 'Product',
+      name: product.title,
+      description: product.description,
+      brand: { '@type': 'Brand', name: 'DecoSupplier' },
+      additionalProperty: product.features.map((feature) => ({
+        '@type': 'PropertyValue',
+        name: 'Feature',
+        value: feature,
+      })),
+    },
+  })),
+};
+
+const comparisonGuideSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Decorative Surface Material Comparison Guide',
+  description: 'A comparison-oriented guide to help buyers choose between PVC decorative film, LVT flooring, SPC wall panels, and self-adhesive interior surface materials by application, finish, durability, and installation method.',
+  itemListElement: products.slice(0, 4).map((product, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: product.title,
+    description: product.description,
+  })),
+};
+
+const sourcingHowToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Source Decorative Surface Materials from DecoSupplier',
+  description: 'A practical sourcing process for selecting products, confirming samples, producing goods, and arranging global delivery.',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Consultation',
+      text: 'Share project requirements, design preferences, and technical specifications so the right product category can be recommended.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Sampling & Customization',
+      text: 'Review sample swatches and confirm any custom patterns, colors, finishes, or brand requirements.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Production & Quality Control',
+      text: 'Move into manufacturing with quality checks from raw materials through finished goods.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Global Logistics & Support',
+      text: 'Arrange shipping, customs documentation, and after-sales support for stable delivery.',
+    },
+  ],
+};
+
+// 提取产品标题用于导航
+const productNavItems = products.map((product, index) => ({ title: product.title, id: index }));
+---
+
+<BaseLayout
+  title="7 Product Lines - PVC Decorative Film, Vinyl Flooring, PVC Wall Panels | DecoSupplier"
+  faqItems={faqs}
+  additionalSchemas={[productItemListSchema, comparisonGuideSchema, sourcingHowToSchema]}
+>
+  <!-- ===== 左侧悬浮导航（桌面端） ===== -->
+  <ProductNavigation products={productNavItems} client:load />
+
+  <!-- ===== Hero Section（已调整为统一排布样式，蒙版+10%至 /20） ===== -->
+  <section id="hero-section" class="relative py-16 md:py-24 overflow-hidden bg-slate-200">
+    <div class="absolute inset-0">
+      <Image 
+        src={heroBgImg}
+        alt="DecoSupplier product range overview"
+        class="w-full h-full object-cover"
+        width={1920}
+        height={600}
+        loading="eager"
+        fetchpriority="high"
+        onerror="this.style.display='none'"
+      />
+      <div class="absolute inset-0 bg-linear-to-r from-slate-700/50 via-slate-700/30 to-slate-700/5"></div>
+    </div>
+    <div class="container mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl">
+        <div class="inline-flex items-center px-4 py-2 mb-6 bg-linear-to-r from-blue-600 to-teal-600 text-white text-sm font-semibold rounded-full shadow-lg">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+          </svg>
+          7 Product Lines. One Factory.
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+          7 Product Lines. <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-teal-400 to-blue-400">One Factory</span>.
+        </h1>
+        <p class="text-lg md:text-xl text-slate-200 max-w-2xl leading-relaxed">
+          Every product line manufactured in our own factory. In-house printing, coating, embossing, and QC. OEM/ODM across all categories.
+        </p>
+        <!-- 增加统一风格的 CTA 按钮 -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-4">
+          <a href="/products" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white bg-linear-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 rounded-lg shadow-lg hover:shadow-xl transition-all group">
+            Browse Our Products
+            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Product List -->
+  <Section background="gray">
+    <!-- ===== 移动端专用产品列表 ===== -->
+    <div class="lg:hidden space-y-6">
+      {products.map((product) => (
+        <a href={product.href} class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-row items-stretch block">
+          <div class="w-1/3 shrink-0 relative overflow-hidden bg-slate-100">
+            <Image 
+              src={product.image}
+              alt={product.title}
+              class="w-full h-full object-cover"
+              width={400}
+              height={400}
+              loading="lazy"
+            />
+          </div>
+          <div class="flex-1 p-4 flex flex-col justify-center">
+            <h3 class="text-base font-bold text-slate-900 leading-tight mb-1">
+              {product.title}
+            </h3>
+            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+              {product.description}
+            </p>
+            <div class="flex flex-wrap gap-1 mt-2">
+              {product.features.slice(0, 3).map((feature) => (
+                <span class="text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-full">
+                  {feature}
+                </span>
+              ))}
+              {product.features.length > 3 && (
+                <span class="text-[10px] text-slate-400">+{product.features.length - 3}</span>
+              )}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- ===== 桌面端产品列表 ===== -->
+    <div class="hidden lg:block space-y-24">
+      {productsWithGallery.map((product, index) => {
+        const firstGalleryItem = product.gallery[0] || { src: '', caption: '' };
+        return (
+          <div 
+            id={`product-${index}`}
+            class={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center scroll-mt-20 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}
+            data-gallery='{JSON.stringify(product.gallery)}'
+          >
+            <!-- ===== 左侧文字内容（无图标） ===== -->
+            <div class={`${index % 2 === 1 ? 'lg:col-start-2' : ''} animate-fadeInUp`}>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <a href={product.href} class="hover:text-[var(--color-primary-600)] transition-colors">
+                {product.title}
+              </a>
+            </h2>
+              <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                {product.description}
+              </p>
+              <ul class="space-y-3 mb-6">
+                {product.features.map((feature) => (
+                  <li class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-teal-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="text-gray-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- ===== 缩略图横向滑动容器 ===== -->
+              <div class="relative w-full">
+                <div class="overflow-x-auto scrollbar-hide flex gap-3 pb-2 snap-x snap-mandatory">
+                  {product.gallery.map((item, idx) => (
+                    <div 
+                      class="shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all snap-start gallery-thumb"
+                      data-index={idx}
+                      data-src={item.src}
+                      data-caption={item.caption}
+                      data-product-idx={index}
+                    >
+                      <img 
+                        src={item.src} 
+                        alt={item.caption} 
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <!-- 左右滚动按钮（可选） -->
+                <button class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white flex items-center justify-center text-slate-700 border border-slate-200 z-10 scroll-prev">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white flex items-center justify-center text-slate-700 border border-slate-200 z-10 scroll-next">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ===== 右侧大图展示（可切换） ===== -->
+            <div class={`${index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
+              <div class="relative aspect-4/3 group overflow-hidden rounded-2xl shadow-2xl">
+                <img 
+                  id={`main-image-${index}`}
+                  src={firstGalleryItem.src}
+                  alt={product.title}
+                  class="w-full h-full object-cover transition-opacity duration-500"
+                />
+                <!-- 文字覆盖层 -->
+                <div class="absolute inset-0 bg-linear-to-t from-slate-900/70 via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <h3 id={`main-caption-${index}`} class="text-2xl font-bold mb-2">{firstGalleryItem.caption}</h3>
+                  <p id={`main-sub-${index}`} class="text-gray-200 text-sm">Click thumbnail to view different applications</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- Process Section -->
+  <Section background="white">
+    <div class="text-center mb-16">
+      <div class="inline-block px-4 py-2 mb-4 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
+        How We Work
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Our Partnership <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-600">Process</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        A streamlined approach from inquiry to delivery — designed to make your sourcing experience seamless and reliable.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {[
+        { 
+          step: '01', 
+          title: 'Consultation', 
+          description: 'We understand your project requirements, design preferences, and technical specifications to recommend the right products.',
+          icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>`
+        },
+        { 
+          step: '02', 
+          title: 'Sampling & Customization', 
+          description: 'We provide free sample swatches and, if needed, develop custom patterns, colors, and finishes tailored to your brand.',
+          icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>`
+        },
+        { 
+          step: '03', 
+          title: 'Production & Quality Control', 
+          description: 'Full-scale manufacturing with three-tier quality inspection — from raw materials to finished goods, ensuring every roll meets international standards.',
+          icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>`
+        },
+        { 
+          step: '04', 
+          title: 'Global Logistics & Support', 
+          description: 'Efficient shipping, customs documentation, and responsive after-sales support — delivered to your door with stable lead times.',
+          icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>`
+        }
+      ].map((process, index) => (
+        <Card hover class="text-center animate-fadeInUp group" style={`animation-delay: ${index * 0.1}s`}>
+          <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-xl bg-linear-to-br from-blue-500 to-teal-500 text-white shadow-lg group-hover:scale-110 transition-transform">
+            <div set:html={process.icon} />
+          </div>
+          <div class="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-600 mb-2">{process.step}</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">{process.title}</h3>
+          <p class="text-gray-600 leading-relaxed">{process.description}</p>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ===== FAQ 模块 ===== -->
+  <Section background="gray">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-block px-4 py-2 mb-4 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
+          Got Questions?
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Frequently Asked <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-600">Questions</span>
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Hover over any question to reveal the answer.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        {faqs.map((faq, index) => (
+          <div class="group bg-white rounded-xl border border-slate-200 hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md" key={index}>
+            <div class="p-5 cursor-default">
+              <div class="flex items-start justify-between gap-4">
+                <span class="text-sm font-medium text-slate-800 group-hover:text-blue-600 transition-colors">
+                  {faq.question}
+                </span>
+                <svg class="w-5 h-5 text-slate-400 group-hover:rotate-180 transition-transform duration-300 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+              <div class="max-h-0 group-hover:max-h-96 overflow-hidden transition-all duration-500 ease-in-out">
+                <div class="pt-3 text-sm text-slate-600 border-t border-slate-100 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA Section -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image 
+        src={ctaBgImg}
+        alt="DecoSupplier factory and logistics"
+        class="w-full h-full object-cover"
+        width={2070}
+        height={1380}
+      />
+      <div class="absolute inset-0 bg-linear-to-r from-blue-900/95 to-teal-900/95"></div>
+    </div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <div class="inline-block px-4 py-2 mb-6 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+          Get Started Today
+        </div>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          Ready to Source with <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-teal-400">DecoSupplier</span>?
+        </h2>
+        <p class="text-xl md:text-2xl text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Let's discuss your project requirements and discover how our surface solutions can meet your needs.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+          <Button href="/contact" size="lg" class="bg-blue-600! hover:bg-blue-700! text-white! shadow-2xl!">
+            Request a Quote
+          </Button>
+          <Button href="/about" size="lg" variant="outline" class="border-2! border-white! text-white! hover:bg-white/10! shadow-2xl!">
+            Explore Our Factory
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<!-- ===== 客户端脚本：缩略图点击切换大图 ===== -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 为每个产品绑定缩略图点击事件
+    document.querySelectorAll('[data-gallery]').forEach((container) => {
+      const index = container.id.replace('product-', '');
+      const thumbs = container.querySelectorAll('.gallery-thumb');
+      const mainImg = document.getElementById(`main-image-${index}`);
+      const captionEl = document.getElementById(`main-caption-${index}`);
+      const subEl = document.getElementById(`main-sub-${index}`);
+
+      if (!mainImg || !thumbs.length) return;
+
+      // 默认选中第一个缩略图
+      thumbs[0].classList.add('border-blue-500');
+
+      thumbs.forEach((thumb) => {
+        thumb.addEventListener('click', function() {
+          const src = this.dataset.src;
+          const caption = this.dataset.caption;
+          if (src) {
+            mainImg.src = src;
+            mainImg.alt = caption || 'Product image';
+            if (captionEl) captionEl.textContent = caption || 'Product view';
+            if (subEl) subEl.textContent = 'Click thumbnail to view different applications';
+            // 更新高亮
+            thumbs.forEach(t => t.classList.remove('border-blue-500'));
+            this.classList.add('border-blue-500');
+          }
+        });
+      });
+
+      // 缩略图横向滚动按钮
+      const scrollContainer = container.querySelector('.overflow-x-auto');
+      const prevBtn = container.querySelector('.scroll-prev');
+      const nextBtn = container.querySelector('.scroll-next');
+      if (scrollContainer && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+          scrollContainer.scrollBy({ left: -120, behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+          scrollContainer.scrollBy({ left: 120, behavior: 'smooth' });
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  /* 隐藏滚动条但保持可滚动 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .snap-x {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-start {
+    scroll-snap-align: start;
+  }
+</style>

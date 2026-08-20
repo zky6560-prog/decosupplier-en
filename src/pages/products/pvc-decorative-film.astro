@@ -1,0 +1,116 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/ui/Section.astro';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-iconset/components';
+import ProductGrid from '@components/react/ProductGrid';
+import ProductCategoryFaq from '@components/products/ProductCategoryFaq.astro';
+import { getProductCategories, getProductsByCategory } from '@/utils/nocobaseCategories';
+import { createProductCategoryItemListSchema, productCategoryFaqs } from '@/utils/productCategorySeo';
+
+import heroBgImg from '@assets/pvc-decorative-film.jpg';
+import ctaBgImg from '@assets/photo-1553413077-190dd305871c.jpg';
+
+const categoryPath = '/products/pvc-decorative-film';
+const categoryName = 'PVC Decorative Film';
+const category = (await getProductCategories()).find((item) => item.href === categoryPath);
+const patterns = category ? await getProductsByCategory(category.id) : [];
+const itemListSchema = createProductCategoryItemListSchema(categoryName, categoryPath, patterns);
+---
+
+<BaseLayout
+  title="PVC Decorative Film Manufacturer"
+  description="PVC decorative films for furniture, cabinets, doors, and interior surfaces, available in wood, stone, solid color, and textured finishes."
+  faqItems={productCategoryFaqs}
+  breadcrumbs={[
+    { name: 'Products', url: '/products' },
+    { name: categoryName, url: categoryPath },
+  ]}
+  additionalSchemas={patterns.length > 0 ? [itemListSchema] : []}
+>
+  <!-- ===== HERO ===== -->
+  <section class="relative py-16 md:py-24 overflow-hidden border-b border-slate-200">
+    <div class="absolute inset-0">
+      <Image
+        src={heroBgImg}
+        alt="PVC decorative film manufacturing line for furniture and cabinet wrapping"
+        class="w-full h-full object-cover"
+        width={2070}
+        height={1380}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-linear-to-r from-slate-700/50 via-slate-700/30 to-slate-700/5"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-4xl">
+        <nav class="flex items-center text-sm text-slate-300 mb-4" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-white transition-colors">Home</a>
+          <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-slate-400" />
+          <a href="/products" class="hover:text-white transition-colors">Products</a>
+          <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-slate-400" />
+          <span class="text-white font-medium">PVC Decorative Film</span>
+        </nav>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          PVC Decorative <span class="text-transparent bg-clip-text bg-linear-to-r from-[var(--color-primary-400)] to-[var(--color-secondary-400)]">Films</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-200 max-w-2xl leading-relaxed">
+          Manufactured in our factory with in-house printing, coating, embossing, and slitting capability for furniture wrapping, wall decoration, and surface upgrading projects.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCT GRID ===== -->
+  <Section background="white" class="py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <ProductGrid patterns={patterns} categoryPath={categoryPath} defaultView="grid" client:load />
+    </div>
+  </Section>
+
+  <!-- ===== TRUST ===== -->
+  <Section background="gray" class="py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
+        <div><div class="text-2xl font-bold text-[var(--color-primary-600)]">1000+</div><div class="text-sm text-slate-600 mt-1">Patterns Available</div></div>
+        <div><div class="text-2xl font-bold text-[var(--color-primary-600)]">0.12-0.45mm</div><div class="text-sm text-slate-600 mt-1">Custom Thickness</div></div>
+        <div><div class="text-2xl font-bold text-[var(--color-primary-600)]">RoHS</div><div class="text-sm text-slate-600 mt-1">Certified Compliant</div></div>
+        <div><div class="text-2xl font-bold text-[var(--color-primary-600)]">15+ Years</div><div class="text-sm text-slate-600 mt-1">Manufacturing Experience</div></div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ===== FAQ ===== -->
+  <Section background="white" class="py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-8">Frequently Asked Questions</h2>
+      <ProductCategoryFaq items={productCategoryFaqs} />
+    </div>
+  </Section>
+
+  <!-- ===== CTA ===== -->
+  <section class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image
+        src={ctaBgImg}
+        alt="PVC decorative film rolls prepared for export orders"
+        class="w-full h-full object-cover"
+        width={2070}
+        height={1380}
+      />
+      <div class="absolute inset-0 bg-linear-to-r from-blue-900/95 to-teal-900/95"></div>
+    </div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-3xl mx-auto text-center text-white">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Need Samples or Custom Production?</h2>
+        <p class="text-lg text-slate-200 mb-8">Speak with our production team for samples, custom specifications, and factory-direct quotations.</p>
+        <a href="/contact" class="inline-flex items-center px-8 py-4 bg-white text-blue-900 font-semibold rounded-lg hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl">
+          Request Free Samples
+          <Icon name="lucide:arrow-right" class="w-5 h-5 ml-2" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

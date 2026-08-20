@@ -1,0 +1,276 @@
+---
+import '../styles/global.css';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import FloatingCTA from '@components/react/FloatingCTA';
+import CookieConsent from '@components/react/CookieConsent';
+import { SITE } from '@config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  schemaType?: 'Organization' | 'Product' | 'Article' | 'ContactPage';
+  schemaData?: Record<string, unknown>;
+  faqItems?: Array<{ question: string; answer: string }>;
+  robots?: string;
+  additionalSchemas?: Array<Record<string, unknown>>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+}
+
+const currentPathname = Astro.url.pathname;
+const canonicalPathname = currentPathname === '/' ? '/' : currentPathname.replace(/\/+$/, '');
+const canonicalURL = new URL(canonicalPathname, SITE.url).href;
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  ogImage = '/og/decosupplier-og.jpg',
+  schemaType = 'Organization',
+  schemaData = {},
+  faqItems = [],
+  robots = 'index, follow, max-image-preview:large',
+  additionalSchemas = [],
+  breadcrumbs = [],
+} = Astro.props;
+
+const BRAND_SUFFIX = ' | DecoSupplier';
+const MAX_TITLE_LENGTH = 60;
+const MAX_DESCRIPTION_LENGTH = 155;
+
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim();
+
+const truncateAtWord = (value: string, maxLength: number) => {
+  const normalized = normalizeWhitespace(value);
+  if (normalized.length <= maxLength) return normalized;
+
+  const slice = normalized.slice(0, maxLength - 3).trim();
+  const lastSpace = slice.lastIndexOf(' ');
+  const truncated = lastSpace > Math.floor(maxLength * 0.55) ? slice.slice(0, lastSpace) : slice;
+  return `${truncated.trim()}...`;
+};
+
+const stripTrailingBrand = (value: string) => normalizeWhitespace(value)
+  .replace(/\s*[|\-]\s*DecoSupplier\s*$/i, '')
+  .trim();
+
+const buildPageTitle = (value: string) => {
+  const titleWithoutTrailingBrand = stripTrailingBrand(value);
+  const baseTitle = titleWithoutTrailingBrand.includes('DecoSupplier')
+    ? titleWithoutTrailingBrand
+    : `${truncateAtWord(titleWithoutTrailingBrand, MAX_TITLE_LENGTH - BRAND_SUFFIX.length)}${BRAND_SUFFIX}`;
+
+  return truncateAtWord(baseTitle, MAX_TITLE_LENGTH);
+};
+
+const pageTitle = buildPageTitle(title);
+const seoDescription = truncateAtWord(description, MAX_DESCRIPTION_LENGTH);
+const ogImageURL = new URL(ogImage, SITE.url).href;
+const pathSegments = canonicalPathname.split('/').filter(Boolean);
+const normalizeBreadcrumbUrl = (url: string) => {
+  const resolved = new URL(url, SITE.url);
+  resolved.pathname = resolved.pathname === '/' ? '/' : resolved.pathname.replace(/\/+$/, '');
+  resolved.search = '';
+  resolved.hash = '';
+  return resolved.href;
+};
+const breadcrumbItems = [
+  { name: 'Home', url: SITE.url },
+  ...(breadcrumbs.length > 0 ? breadcrumbs.map((item) => ({
+    name: item.name,
+    url: normalizeBreadcrumbUrl(item.url),
+  })) : pathSegments.map((segment, index) => {
+    const urlPath = `/${pathSegments.slice(0, index + 1).join('/')}`;
+    return {
+      name: segment
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase()),
+      url: normalizeBreadcrumbUrl(urlPath),
+    };
+  })),
+];
+
+// ===== JSON-LD 结构化数据 =====
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'DecoSupplier',
+  url: SITE.url,
+  logo: `${SITE.url}/favicon.ico`,
+  description: SITE.description,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+86-153-0581-9072',
+    contactType: 'sales',
+    email: 'info@decosupplier.com',
+    availableLanguage: ['English', 'Chinese'],
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '5th Floor, Huarui Huijin Center, Beigan Sub-district, Xiaoshan District, Hangzhou City, Zhejiang Province, P.R.China',
+    addressCountry: 'CN',
+    addressRegion: 'Zhejiang',
+    addressLocality: 'Hangzhou',
+    postalCode: '311200',
+  },
+  sameAs: [
+    'https://linkedin.com/company/decosupplier',
+    'https://facebook.com/decosupplier',
+  ],
+};
+
+function getJsonLd() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+
+  const faqSchema = faqItems.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
+
+  const baseSchemas = [orgSchema, breadcrumbSchema];
+  const pageSchemas = [...baseSchemas, ...(faqSchema ? [faqSchema] : []), ...additionalSchemas];
+
+  switch (schemaType) {
+    case 'Organization':
+      return JSON.stringify(pageSchemas);
+    case 'ContactPage':
+      return JSON.stringify([
+        orgSchema,
+        {
+          '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: pageTitle,
+          description: seoDescription,
+          url: canonicalURL,
+          mainEntity: orgSchema,
+        },
+        breadcrumbSchema,
+        ...(faqSchema ? [faqSchema] : []),
+        ...additionalSchemas,
+      ]);
+    case 'Product': {
+      const productSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        ...schemaData,
+        name: schemaData.name ?? pageTitle,
+        description: schemaData.description ?? seoDescription,
+        image: schemaData.image ? new URL(String(schemaData.image), SITE.url).href : ogImageURL,
+        brand: { '@type': 'Brand', name: 'DecoSupplier' },
+        manufacturer: orgSchema,
+      };
+      return JSON.stringify([...baseSchemas, productSchema, ...(faqSchema ? [faqSchema] : []), ...additionalSchemas]);
+    }
+    case 'Article': {
+      const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        ...schemaData,
+        headline: schemaData.headline ?? pageTitle,
+        description: seoDescription,
+        image: schemaData.image ? new URL(String(schemaData.image), SITE.url).href : ogImageURL,
+        datePublished: schemaData.datePublished,
+        dateModified: schemaData.dateModified ?? schemaData.datePublished,
+        author: {
+          '@type': 'Person',
+          name: schemaData.author ?? SITE.author,
+        },
+        publisher: orgSchema,
+        mainEntityOfPage: canonicalURL,
+      };
+      return JSON.stringify([...baseSchemas, articleSchema, ...additionalSchemas]);
+    }
+    default:
+      return JSON.stringify(pageSchemas);
+  }
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Robots -->
+    <meta name="robots" content={robots} />
+
+    <!-- Primary Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={seoDescription} />
+    <meta name="author" content={SITE.author} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={seoDescription} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="DecoSupplier" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={pageTitle} />
+    <meta property="twitter:description" content={seoDescription} />
+    <meta property="twitter:image" content={ogImageURL} />
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="en" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={getJsonLd()}>
+    </script>
+
+    <!-- Google Analytics 4 -->
+    {SITE.ga4Id && SITE.ga4Id !== 'G-XXXXXXXXXX' && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4Id}`}></script>
+        <script>
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${SITE.ga4Id}');`}
+        </script>
+      </>
+    )}
+  </head>
+  <body class="flex min-h-screen flex-col bg-white font-sans text-neutral-900 antialiased">
+    <Header currentPathname={currentPathname} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- ===== 全局 CTA 快捷入口（右侧浮动） ===== -->
+    <FloatingCTA client:load />
+    <CookieConsent client:load />
+  </body>
+</html>

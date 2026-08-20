@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import heroBgImg from '@assets/hero-factory-production-line.png';
+---
+
+<section class="relative min-h-screen py-8 flex items-center overflow-hidden">
+  <!-- Background Image with Overlay -->
+  <div class="absolute inset-0">
+    <Image 
+      src={heroBgImg}
+      alt="DecoSupplier manufacturing and surface decoration solutions"
+      class="w-full h-full object-cover"
+      width={2070}
+      height={1380}
+      decoding="async"
+      fetchpriority="high"
+    />
+    <!-- 蒙版修复：兼容 Tailwind v3 & v4，使用绝对定位与全局主色蒙版 -->
+    <div class="absolute inset-0 bg-slate-950/50 bg-gradient-to-r from-[var(--color-primary-900)]/70 via-[var(--color-primary-900)]/50 to-[var(--color-primary-900)]/30"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="container mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <!-- 胶囊标签：使用全局 secondary 辅助色 -->
+      <div class="inline-flex items-center px-4 py-2 mb-4 md:mb-6 bg-[var(--color-secondary-500)] text-slate-950 text-sm font-semibold rounded-full shadow-lg">
+        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+        </svg>
+        China Factory-Direct Decorative Materials
+      </div>
+      
+      <!-- 主标题：使用全局 gradient-text -->
+      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">
+        Your Trusted Source for Premium
+        <span class="block gradient-text mt-1 md:mt-2">
+          Decorative Surface Materials
+        </span>
+      </h1>
+      
+      <!-- 副标题 -->
+      <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-200 mb-6 md:mb-8 max-w-2xl leading-relaxed">
+        One factory. 7 product lines. 1000+ patterns. Factory-direct pricing for distributors, contractors, and brands worldwide.
+      </p>
+      
+      <!-- 按钮 -->
+      <div class="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6 md:mb-10">
+        <Button href="/contact" size="lg" class="bg-[var(--color-secondary-500)]! hover:bg-[var(--color-secondary-600)]! text-slate-950! font-bold! shadow-2xl!">
+          Get Free Samples & Factory Quote
+        </Button>
+        <Button href="/products" size="lg" variant="outline" class="border-2! border-white! text-white! hover:bg-white/10! shadow-2xl!">
+          Explore 7 Product Lines
+        </Button>
+      </div>
+
+      <!-- 底部数据栏 -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 md:pt-8 border-t border-white/20 pb-2 md:pb-0">
+        <div class="group">
+          <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--color-secondary-300)] mb-0.5 md:mb-1 whitespace-nowrap">15+</div>
+          <div class="text-xs sm:text-sm text-slate-300 group-hover:text-[var(--color-secondary-300)] transition-colors">Years Manufacturing</div>
+        </div>
+        <div class="group">
+          <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--color-secondary-300)] mb-0.5 md:mb-1 whitespace-nowrap">1000+</div>
+          <div class="text-xs sm:text-sm text-slate-300 group-hover:text-[var(--color-secondary-300)] transition-colors">In-Stock Patterns</div>
+        </div>
+        <div class="group">
+          <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--color-secondary-300)] mb-0.5 md:mb-1 whitespace-nowrap">ISO 9001</div>
+          <div class="text-xs sm:text-sm text-slate-300 group-hover:text-[var(--color-secondary-300)] transition-colors">Certified Factory</div>
+        </div>
+        <div class="group">
+          <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--color-secondary-300)] mb-0.5 md:mb-1 whitespace-nowrap">50,000+ m²</div>
+          <div class="text-xs sm:text-sm text-slate-300 group-hover:text-[var(--color-secondary-300)] transition-colors">Production Base</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>

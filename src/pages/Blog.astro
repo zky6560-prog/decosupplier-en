@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogListPage from '@components/blog/BlogListPage.astro';
+import { SITE } from '@config/site';
+import { getBlogPosts } from '@/utils/nocobasePages';
+
+export const prerender = true;
+
+const postsPerPage = 6;
+const currentPage = 1;
+const allPosts = await getBlogPosts();
+const totalPages = Math.ceil(allPosts.length / postsPerPage);
+const posts = allPosts.slice(0, postsPerPage);
+
+const blogItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'DecoSupplier Blog Articles',
+  numberOfItems: posts.length,
+  itemListElement: posts.map((post, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/Blog/${post.slug}`, SITE.url).href,
+    name: post.title,
+  })),
+};
+---
+
+<BaseLayout
+  title="DecoSupplier Blog - Guides & Factory Updates"
+  description="Technical guides, sourcing tips, factory updates, and material comparisons for PVC decorative films, LVT flooring, and wall panels."
+  additionalSchemas={[blogItemListSchema]}
+>
+  <BlogListPage
+    posts={posts}
+    allPosts={allPosts}
+    currentPage={currentPage}
+    totalPages={totalPages}
+    postsPerPage={postsPerPage}
+  />
+</BaseLayout>

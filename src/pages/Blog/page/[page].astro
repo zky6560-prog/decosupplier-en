@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogListPage from '@components/blog/BlogListPage.astro';
+import { SITE } from '@config/site';
+import { getBlogPosts, type BlogPostWithContent } from '@/utils/nocobasePages';
+
+const postsPerPage = 6;
+const allPosts = await getBlogPosts();
+const totalPages = Math.ceil(allPosts.length / postsPerPage);
+
+export const prerender = true;
+
+export const getStaticPaths = async () => {
+  const postsForPaths = await getBlogPosts();
+  const pageSize = 6;
+  const totalStaticPages = Math.ceil(postsForPaths.length / pageSize);
+
+  return Array.from({ length: Math.max(totalStaticPages - 1, 0) }, (_, index) => {
+    const currentPage = index + 2;
+    const start = (currentPage - 1) * pageSize;
+    const posts = postsForPaths.slice(start, start + pageSize);
+
+    return {
+      params: { page: String(currentPage) },
+      props: { currentPage, posts },
+    };
+  });
+};
+
+interface Props {
+  currentPage: number;
+  posts: BlogPostWithContent[];
+}
+
+const { currentPage, posts } = Astro.props;
+
+const blogItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `DecoSupplier Blog Articles - Page ${currentPage}`,
+  numberOfItems: posts.length,
+  itemListElement: posts.map((post, index) => ({
+    '@type': 'ListItem',
+    position: (currentPage - 1) * postsPerPage + index + 1,
+    url: new URL(`/Blog/${post.slug}`, SITE.url).href,
+    name: post.title,
+  })),
+};
+---
+
+<BaseLayout
+  title={`DecoSupplier Blog - Page ${currentPage}`}
+  description="Browse DecoSupplier technical guides, sourcing tips, factory updates, and material comparisons for decorative surface projects."
+  additionalSchemas={[blogItemListSchema]}
+  breadcrumbs={[
+    { name: 'Blog', url: '/Blog' },
+    { name: `Page ${currentPage}`, url: `/Blog/page/${currentPage}` },
+  ]}
+>
+  <BlogListPage
+    posts={posts}
+    allPosts={allPosts}
+    currentPage={currentPage}
+    totalPages={totalPages}
+    postsPerPage={postsPerPage}
+  />
+</BaseLayout>

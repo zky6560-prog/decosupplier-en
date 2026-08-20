@@ -1,0 +1,93 @@
+@theme {
+  /* Brand palette - industrial, premium, and factory-oriented */
+  --color-primary-50: #f3f6fb;
+  --color-primary-100: #e2eaf2;
+  --color-primary-200: #c7d4e3;
+  --color-primary-300: #9fb2ca;
+  --color-primary-400: #768eaf;
+  --color-primary-500: #5a7494;
+  --color-primary-600: #435c7b;
+  --color-primary-700: #31445f;
+  --color-primary-800: #243447;
+  --color-primary-900: #182433;
+  --color-primary-950: #0f1720;
+
+  --color-secondary-50: #f6f8f1;
+  --color-secondary-100: #e9efd9;
+  --color-secondary-200: #d7e1bc;
+  --color-secondary-300: #bfd09b;
+  --color-secondary-400: #9fb478;
+  --color-secondary-500: #7f9658;
+  --color-secondary-600: #667a47;
+  --color-secondary-700: #516038;
+  --color-secondary-800: #3f4a2b;
+  --color-secondary-900: #2c341f;
+  --color-secondary-950: #1b2212;
+
+  /* Semantic aliases */
+  --color-primary: var(--color-primary-700);
+  --color-secondary: var(--color-secondary-600);
+  --color-primary-contrast: #f8fafc;
+  --color-secondary-contrast: #101828;
+
+  /* Shared helper colors used by UI chips */
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary-500) 20%, white);
+  --color-secondary-dark: var(--color-secondary-700);
+
+  /* Legacy Tailwind color aliases to the same brand palette */
+  --color-blue-50: var(--color-primary-50);
+  --color-blue-100: var(--color-primary-100);
+  --color-blue-200: var(--color-primary-200);
+  --color-blue-300: var(--color-primary-300);
+  --color-blue-400: var(--color-primary-400);
+  --color-blue-500: var(--color-primary-500);
+  --color-blue-600: var(--color-primary-600);
+  --color-blue-700: var(--color-primary-700);
+  --color-blue-800: var(--color-primary-800);
+  --color-blue-900: var(--color-primary-900);
+
+  --color-teal-50: var(--color-secondary-50);
+  --color-teal-100: var(--color-secondary-100);
+  --color-teal-200: var(--color-secondary-200);
+  --color-teal-300: var(--color-secondary-300);
+  --color-teal-400: var(--color-secondary-400);
+  --color-teal-500: var(--color-secondary-500);
+  --color-teal-600: var(--color-secondary-600);
+  --color-teal-700: var(--color-secondary-700);
+  --color-teal-800: var(--color-secondary-800);
+  --color-teal-900: var(--color-secondary-900);
+
+  --color-amber-50: var(--color-secondary-50);
+  --color-amber-100: var(--color-secondary-100);
+  --color-amber-200: var(--color-secondary-200);
+  --color-amber-300: var(--color-secondary-300);
+  --color-amber-400: var(--color-secondary-400);
+  --color-amber-500: var(--color-secondary-500);
+  --color-amber-600: var(--color-secondary-600);
+  --color-amber-700: var(--color-secondary-700);
+  --color-amber-800: var(--color-secondary-800);
+  --color-amber-900: var(--color-secondary-900);
+
+  --color-cyan-500: var(--color-secondary-400);
+  --color-cyan-600: var(--color-secondary-500);
+  --color-cyan-700: var(--color-secondary-600);
+
+  --color-emerald-500: var(--color-secondary-400);
+  --color-emerald-600: var(--color-secondary-500);
+  --color-emerald-700: var(--color-secondary-600);
+
+  --color-green-500: var(--color-secondary-400);
+  --color-green-600: var(--color-secondary-500);
+  --color-green-700: var(--color-secondary-600);
+
+  --color-purple-500: var(--color-primary-500);
+  --color-purple-600: var(--color-primary-600);
+  --color-purple-700: var(--color-primary-700);
+
+  --color-orange-500: var(--color-secondary-500);
+  --color-orange-600: var(--color-secondary-600);
+
+  /* Shared gradients */
+  --brand-gradient-primary: linear-gradient(90deg, var(--color-primary-700), var(--color-primary-500), var(--color-secondary-600));
+  --brand-gradient-hero: linear-gradient(90deg, var(--color-primary-950), var(--color-primary-800), var(--color-secondary-900));
+}

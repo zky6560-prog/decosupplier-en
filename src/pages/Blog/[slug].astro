@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getBlogPosts, getRelatedBlogPosts, type BlogPostWithContent } from '@/utils/nocobasePages';
+
+export const prerender = true;
+
+export const getStaticPaths = async () => {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+};
+
+interface Props {
+  post: BlogPostWithContent;
+}
+
+const { post } = Astro.props;
+const relatedPosts = await getRelatedBlogPosts(post.slug);
+const articleSchemaData = {
+  headline: post.title,
+  image: post.coverImage,
+  datePublished: post.publishedAt,
+  author: post.author,
+};
+---
+
+<BaseLayout
+  title={`${post.title} | DecoSupplier`}
+  description={post.excerpt}
+  ogImage={post.coverImage}
+  schemaType="Article"
+  schemaData={articleSchemaData}
+  breadcrumbs={[
+    { name: 'Blog', url: '/Blog' },
+    { name: post.title, url: `/Blog/${post.slug}` },
+  ]}
+>
+  <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    <nav class="flex items-center text-sm text-slate-500 mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+      <span class="mx-2 text-slate-300">/</span>
+      <a href="/Blog" class="hover:text-blue-600 transition-colors">Blog</a>
+      <span class="mx-2 text-slate-300">/</span>
+      <span class="text-slate-800 font-medium line-clamp-1">{post.title}</span>
+    </nav>
+
+    <header class="mb-8">
+      {post.isFeatured && (
+        <div class="inline-flex items-center bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
+          Featured Article
+        </div>
+      )}
+      <h1 class="text-3xl md:text-5xl font-bold text-slate-900 leading-tight mb-5">{post.title}</h1>
+      <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">{post.excerpt}</p>
+      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 mt-5">
+        <span class="font-medium text-slate-800">{post.author}</span>
+        <span>{post.authorTitle}</span>
+        <span class="text-slate-300">|</span>
+        <time datetime={post.publishedAt}>{post.publishedAt}</time>
+        <span class="rounded-full bg-blue-50 text-blue-700 px-3 py-1 text-xs font-medium">{post.category}</span>
+      </div>
+    </header>
+
+    <div class="relative aspect-[16/9] overflow-hidden rounded-xl bg-slate-100 shadow-lg mb-10">
+      <img src={post.coverImage} alt={post.title} class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
+    </div>
+
+    <div class="prose max-w-none text-slate-700 leading-relaxed">
+      <p>{post.excerpt}</p>
+      <div set:html={post.content} />
+    </div>
+
+    <section class="mt-12 pt-8 border-t border-slate-200">
+      <h2 class="text-2xl font-bold text-slate-900 mb-5">Related Articles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {relatedPosts.map((related) => (
+          <a href={`/Blog/${related.slug}`} class="block rounded-lg border border-slate-200 bg-white p-5 hover:border-blue-300 hover:shadow-md transition-all" key={related.slug}>
+            <div class="text-xs font-medium text-blue-600 mb-2">{related.category}</div>
+            <h3 class="text-base font-semibold text-slate-900 line-clamp-2">{related.title}</h3>
+            <p class="text-sm text-slate-500 mt-2 line-clamp-2">{related.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>

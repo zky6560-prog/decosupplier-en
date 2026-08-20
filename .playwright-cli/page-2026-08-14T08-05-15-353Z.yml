@@ -1,0 +1,126 @@
+- generic [active] [ref=f3e1]:
+  - banner [ref=f3e2]:
+    - navigation [ref=f3e3]:
+      - link "Deco Supplier" [ref=f3e5] [cursor=pointer]:
+        - /url: /
+      - button "Toggle menu" [ref=f3e11]
+  - main [ref=f3e14]:
+    - generic [ref=f3e17]:
+      - paragraph [ref=f3e18]: 404 Error
+      - heading "Page Not Found" [level=1] [ref=f3e19]
+      - paragraph [ref=f3e20]: The requested page may have moved or no longer exists. Use the links below to continue browsing DecoSupplier.
+      - generic [ref=f3e21]:
+        - link "Back to Home" [ref=f3e22] [cursor=pointer]:
+          - /url: /
+        - link "View Products" [ref=f3e25] [cursor=pointer]:
+          - /url: /products
+        - link "Contact Us" [ref=f3e28] [cursor=pointer]:
+          - /url: /contact
+  - contentinfo [ref=f3e31]:
+    - generic [ref=f3e32]:
+      - generic [ref=f3e33]:
+        - generic [ref=f3e34]:
+          - link "Deco Supplier" [ref=f3e35] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f3e40]: Factory-direct PVC decorative film, LVT flooring, and wall panel supplier with OEM/ODM production and export support.
+          - generic [ref=f3e41]:
+            - link "LinkedIn" [ref=f3e42] [cursor=pointer]:
+              - /url: https://linkedin.com/company/decosupplier
+            - link "Twitter" [ref=f3e45] [cursor=pointer]:
+              - /url: https://twitter.com/decosupplier
+            - link "Facebook" [ref=f3e48] [cursor=pointer]:
+              - /url: https://facebook.com/decosupplier
+        - generic [ref=f3e51]:
+          - heading "Quick Links" [level=3] [ref=f3e52]
+          - list [ref=f3e53]:
+            - listitem [ref=f3e54]:
+              - link "Home" [ref=f3e55] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f3e56]:
+              - link "Products" [ref=f3e57] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f3e58]:
+              - link "About" [ref=f3e59] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=f3e60]:
+              - link "Service" [ref=f3e61] [cursor=pointer]:
+                - /url: /service
+            - listitem [ref=f3e62]:
+              - link "Blog" [ref=f3e63] [cursor=pointer]:
+                - /url: /Blog
+            - listitem [ref=f3e64]:
+              - link "Contact" [ref=f3e65] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=f3e66]:
+          - heading "Products" [level=3] [ref=f3e67]
+          - list [ref=f3e68]:
+            - listitem [ref=f3e69]:
+              - link "All Products All Products" [ref=f3e70] [cursor=pointer]:
+                - /url: /products
+                - img "All Products" [ref=f3e71]
+                - generic [ref=f3e72]: All Products
+            - listitem [ref=f3e73]:
+              - link "PVC Decorative Film PVC Decorative Film" [ref=f3e74] [cursor=pointer]:
+                - /url: /products/pvc-decorative-film
+                - img "PVC Decorative Film" [ref=f3e75]
+                - generic [ref=f3e76]: PVC Decorative Film
+            - listitem [ref=f3e77]:
+              - link "LVT Flooring LVT Flooring" [ref=f3e78] [cursor=pointer]:
+                - /url: /products/lvt-flooring
+                - img "LVT Flooring" [ref=f3e79]
+                - generic [ref=f3e80]: LVT Flooring
+            - listitem [ref=f3e81]:
+              - link "SPC Wall Panels SPC Wall Panels" [ref=f3e82] [cursor=pointer]:
+                - /url: /products/spc-wall-panels
+                - img "SPC Wall Panels" [ref=f3e83]
+                - generic [ref=f3e84]: SPC Wall Panels
+            - listitem [ref=f3e85]:
+              - link "Interior Refinishing Film Interior Refinishing Film" [ref=f3e86] [cursor=pointer]:
+                - /url: /products/interior-refinishing-film
+                - img "Interior Refinishing Film" [ref=f3e87]
+                - generic [ref=f3e88]: Interior Refinishing Film
+            - listitem [ref=f3e89]:
+              - link "Self-Adhesive Foam Wall Panels Self-Adhesive Foam Wall Panels" [ref=f3e90] [cursor=pointer]:
+                - /url: /products/self-adhesive-foam-wall-panels
+                - img "Self-Adhesive Foam Wall Panels" [ref=f3e91]
+                - generic [ref=f3e92]: Self-Adhesive Foam Wall Panels
+            - listitem [ref=f3e93]:
+              - link "3D PVC Wall Panels 3D PVC Wall Panels" [ref=f3e94] [cursor=pointer]:
+                - /url: /products/3d-pvc-wall-panels
+                - img "3D PVC Wall Panels" [ref=f3e95]
+                - generic [ref=f3e96]: 3D PVC Wall Panels
+            - listitem [ref=f3e97]:
+              - link "Peel & Stick Wallpapers Peel & Stick Wallpapers" [ref=f3e98] [cursor=pointer]:
+                - /url: /products/peel-and-stick-wallpapers
+                - img "Peel & Stick Wallpapers" [ref=f3e99]
+                - generic [ref=f3e100]: Peel & Stick Wallpapers
+        - generic [ref=f3e101]:
+          - heading "Get Started" [level=3] [ref=f3e102]
+          - list [ref=f3e103]:
+            - listitem [ref=f3e104]:
+              - link "Request a Quote" [ref=f3e105] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=f3e106]:
+              - link "About Our Factory" [ref=f3e107] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=f3e108]:
+              - link "Blog & Insights" [ref=f3e109] [cursor=pointer]:
+                - /url: /Blog
+          - link "Get Started" [ref=f3e111] [cursor=pointer]:
+            - /url: /contact
+      - generic [ref=f3e113]:
+        - paragraph [ref=f3e114]: © 2026 DecoSupplier. All rights reserved.
+        - generic [ref=f3e115]:
+          - link "Privacy Policy" [ref=f3e116] [cursor=pointer]:
+            - /url: /privacy
+          - generic [ref=f3e117]: •
+          - link "Terms of Service" [ref=f3e118] [cursor=pointer]:
+            - /url: /terms
+          - generic [ref=f3e119]: •
+          - link "Cookie Policy" [ref=f3e120] [cursor=pointer]:
+            - /url: /cookies
+  - generic [ref=f3e123]:
+    - button [ref=f3e124]
+    - button [ref=f3e130]
+    - button [ref=f3e134]
+    - button [ref=f3e139]

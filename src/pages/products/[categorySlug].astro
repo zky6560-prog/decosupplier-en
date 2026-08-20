@@ -1,0 +1,92 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/ui/Section.astro';
+import { Icon } from 'astro-iconset/components';
+import ProductGrid from '@components/react/ProductGrid';
+import { getProductCategories, getProductsByCategory } from '@/utils/nocobaseCategories';
+import { createProductCategoryItemListSchema } from '@/utils/productCategorySeo';
+
+export const getStaticPaths = async () => {
+  const getCategorySlug = (href: string) => href.replace(/^\/products\//, '').replace(/^\/|\/$/g, '');
+  const staticCategorySlugs = new Set([
+    'interior-self-adhesive-film',
+    'lvt-flooring',
+    'pvc-decorative-film',
+    'pvc_wall_panel',
+  ]);
+  const categories = await getProductCategories();
+
+  return categories
+    .map((category) => ({ category, categorySlug: getCategorySlug(category.href) }))
+    .filter(({ categorySlug }) => categorySlug && !staticCategorySlugs.has(categorySlug))
+    .map(({ category, categorySlug }) => ({
+      params: { categorySlug },
+      props: { category },
+    }));
+};
+
+const { category } = Astro.props;
+
+if (!category) {
+  return Astro.redirect('/404');
+}
+
+const patterns = category ? await getProductsByCategory(category.id) : [];
+const categoryName = category?.name || 'Product Category';
+const categoryPath = category.href;
+
+const CATEGORY_HERO_IMAGES: Record<string, string> = {
+  'self-adhesive-foam-wall-panels': '/src/assets/self-adhesive-foam-wall-roll.png',
+  '3d-pvc-wall-panels': '/src/assets/3d-pvc-wall-panel.jpg',
+  'peel-and-stick-wallpapers': '/src/assets/peel-stick-wallpapers.png',
+};
+
+const heroImage = CATEGORY_HERO_IMAGES[Astro.params.categorySlug] || category?.image || '/src/assets/photo-1586528116311-ad8dd3c8310d.jpg';
+
+const description = `Browse ${categoryName} products from DecoSupplier, including available patterns, colors, and product images for sourcing and project review.`;
+const itemListSchema = createProductCategoryItemListSchema(categoryName, categoryPath, patterns);
+---
+
+<BaseLayout
+  title={`${categoryName} Supplier`}
+  description={description}
+  breadcrumbs={[
+    { name: 'Products', url: '/products' },
+    { name: categoryName, url: categoryPath },
+  ]}
+  additionalSchemas={patterns.length > 0 ? [itemListSchema] : []}
+>
+  <section class="relative py-16 md:py-24 overflow-hidden border-b border-slate-200">
+    <div class="absolute inset-0">
+      <img
+        src={heroImage}
+        alt={`${categoryName} product collection`}
+        class="w-full h-full object-cover"
+        width={2070}
+        height={1380}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-linear-to-r from-slate-700/65 via-slate-700/35 to-slate-700/10"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <nav class="flex items-center text-sm text-slate-300 mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-slate-400" />
+        <a href="/products" class="hover:text-white transition-colors">Products</a>
+        <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-slate-400" />
+        <span class="text-white font-medium">{categoryName}</span>
+      </nav>
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">{categoryName}</h1>
+      <p class="text-lg md:text-xl text-slate-200 max-w-2xl leading-relaxed">{description}</p>
+    </div>
+  </section>
+
+  <Section background="white" class="py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <ProductGrid patterns={patterns} categoryPath={categoryPath} defaultView="grid" client:load />
+    </div>
+  </Section>
+</BaseLayout>

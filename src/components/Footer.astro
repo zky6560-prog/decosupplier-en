@@ -1,0 +1,172 @@
+---
+import { NAVIGATION, SOCIAL_LINKS, SITE } from '@config/site';
+import { Icon } from 'astro-iconset/components';
+
+// 产品列表（与 Header 保持一致）
+const productItems = [
+  { name: 'All Products', href: '/products' },
+  { name: 'PVC Decorative Film', href: '/products/pvc-decorative-film' },
+  { name: 'Peel and Stick Vinyl Flooring', href: '/products/lvt-flooring' },
+  { name: 'PVC Wall Panel', href: '/products/pvc_wall_panel' },
+  { name: 'Self-Adhesive Decorative Film', href: '/products/interior-self-adhesive-film' },
+  { name: 'Self-adhesive Foam Wallpaper Roll', href: '/products/self-adhesive-foam-wall-panels' },
+  { name: '3D PVC Wall Panel', href: '/products/3d-pvc-wall-panels' },
+  { name: 'Peel & Stick Wallpapers', href: '/products/peel-and-stick-wallpapers' },
+];
+
+const productImages = [
+  '/assets/product/product (1).jpg',
+  '/assets/product/product (2).jpg',
+  '/assets/product/product (3).jpg',
+  '/assets/product/product (4).jpg',
+  '/assets/product/product (5).jpg',
+  '/assets/product/product (6).jpg',
+  '/assets/product/product (7).jpg',
+  '/assets/product/product (8).jpg',
+];
+---
+
+<footer class="bg-slate-900 text-slate-300">
+  <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-4">
+      <!-- Company Info -->
+      <div class="lg:col-span-1 space-y-6">
+        <a href="/" class="flex items-center group">
+          <img src="/logo.png" alt="DecoSupplier" class="h-10 w-auto" />
+        </a>
+        <p class="text-sm text-slate-400 leading-relaxed max-w-xs">
+          {SITE.description}
+        </p>
+        <div class="flex space-x-4">
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-[var(--color-primary-600)] hover:text-white transition-all"
+            aria-label="LinkedIn"
+          >
+            <Icon name="lucide:linkedin" class="w-5 h-5" />
+          </a>
+          <a
+            href={SOCIAL_LINKS.twitter}
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-[var(--color-primary-500)] hover:text-white transition-all"
+            aria-label="Twitter"
+          >
+            <Icon name="lucide:twitter" class="w-5 h-5" />
+          </a>
+          <a
+            href={SOCIAL_LINKS.facebook}
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-[var(--color-secondary-500)] hover:text-white transition-all"
+            aria-label="Facebook"
+          >
+            <Icon name="lucide:facebook" class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
+          Quick Links
+        </h3>
+        <ul class="space-y-3">
+          {NAVIGATION.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.href}
+                class="text-sm text-slate-400 hover:text-[var(--color-primary-400)] transition-colors inline-flex items-center group"
+              >
+                <span class="w-0 group-hover:w-2 h-0.5 bg-[var(--color-primary-400)] transition-all mr-0 group-hover:mr-2"></span>
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Products（带缩略图） -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
+          Products
+        </h3>
+        <ul class="space-y-3">
+          {productItems.map((product, index) => {
+            const imgSrc = productImages[index % productImages.length];
+            return (
+              <li key={product.href}>
+                <a
+                  href={product.href}
+                  class="flex items-center gap-3 text-sm text-slate-400 hover:text-[var(--color-primary-400)] transition-colors group"
+                >
+                  <img
+                    src={imgSrc}
+                    alt={product.name}
+                    class="w-6 h-6 object-cover rounded border border-slate-700 shrink-0"
+                    loading="lazy"
+                  />
+                  <span>{product.name}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
+          Request Free Samples
+        </h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="/contact" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors inline-flex items-center group">
+              <span class="w-0 group-hover:w-2 h-0.5 bg-[var(--color-primary-400)] transition-all mr-0 group-hover:mr-2"></span>
+              Request a Quote
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors inline-flex items-center group">
+              <span class="w-0 group-hover:w-2 h-0.5 bg-[var(--color-primary-400)] transition-all mr-0 group-hover:mr-2"></span>
+              About Our Factory
+            </a>
+          </li>
+          <li>
+            <a href="/Blog" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors inline-flex items-center group">
+              <span class="w-0 group-hover:w-2 h-0.5 bg-[var(--color-primary-400)] transition-all mr-0 group-hover:mr-2"></span>
+              Blog &amp; Insights
+            </a>
+          </li>
+        </ul>
+        
+        <div class="mt-8">
+          <a
+            href="/contact"
+            class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-linear-to-r from-[var(--color-primary-600)] to-[var(--color-primary-700)] hover:from-[var(--color-primary-700)] hover:to-[var(--color-primary-800)] rounded-lg shadow-lg hover:shadow-xl transition-all"
+          >
+            Request Free Samples
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-16 pt-8 border-t border-slate-800">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <p class="text-sm text-slate-400">
+          &copy; {new Date().getFullYear()} {SITE.author}. All rights reserved.
+        </p>
+        <div class="flex items-center space-x-6 text-sm">
+          <a href="/privacy" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors">
+            Privacy Policy
+          </a>
+          <span class="text-slate-700">•</span>
+          <a href="/terms" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors">
+            Terms of Service
+          </a>
+          <span class="text-slate-700">•</span>
+          <a href="/cookies" class="text-slate-400 hover:text-[var(--color-primary-400)] transition-colors">
+            Cookie Policy
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,202 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "Deco Supplier" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e10]:
+        - link "Home" [ref=e11] [cursor=pointer]:
+          - /url: /
+        - button "Products" [ref=e13]
+        - link "About" [ref=e17] [cursor=pointer]:
+          - /url: /about
+        - link "Service" [ref=e18] [cursor=pointer]:
+          - /url: /service
+        - link "Blog" [ref=e19] [cursor=pointer]:
+          - /url: /Blog
+        - link "Contact" [ref=e20] [cursor=pointer]:
+          - /url: /contact
+      - link "Request Quote" [ref=e22] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=e23]:
+    - generic [ref=e25]:
+      - navigation "Breadcrumb" [ref=e26]:
+        - link "Home" [ref=e27] [cursor=pointer]:
+          - /url: /
+        - link "Products" [ref=e30] [cursor=pointer]:
+          - /url: /products
+        - link "3D PVC Wall Panel" [ref=e33] [cursor=pointer]:
+          - /url: /products/3d-pvc-wall-panel
+        - generic [ref=e36]: GeoPrism Blue
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - img "GeoPrism Blue main product view" [ref=e40]
+          - generic "Product image gallery" [ref=e41]:
+            - button "Show image 1 of 4" [pressed] [ref=e42]
+            - button "Show image 2 of 4" [ref=e43]
+            - button "Show image 3 of 4" [ref=e44]
+            - button "Show image 4 of 4" [ref=e45]
+        - generic [ref=e46]:
+          - paragraph [ref=e47]: 3D PVC Wall Panel
+          - heading "GeoPrism Blue" [level=1] [ref=e48]
+          - paragraph [ref=e49]: This Navy variant features a non-reflective matte surface, providing a sophisticated yet rugged aesthetic. Its 1mm slim profile reduces shipping weight without sacrificing strength. The panels install easily with adhesive and align perfectly for a continuous look. A top choice for cost-effective commercial renovations.
+          - generic [ref=e50]:
+            - generic [ref=e54]:
+              - term [ref=e55]: Product code
+              - definition [ref=e56]: D001
+            - generic [ref=e60]:
+              - term [ref=e61]: Supply code
+              - definition [ref=e62]: D001
+            - generic [ref=e66]:
+              - term [ref=e67]: Category
+              - definition [ref=e68]: 3D PVC Wall Panel
+            - generic [ref=e72]:
+              - term [ref=e73]: Pattern type
+              - definition [ref=e74]: Geometric
+            - generic [ref=e78]:
+              - term [ref=e79]: Color family
+              - definition [ref=e80]: Blue
+            - generic [ref=e84]:
+              - term [ref=e85]: Collection
+              - definition [ref=e86]: GeoPrism
+          - generic [ref=e87]:
+            - heading "Design keywords" [level=2] [ref=e88]
+            - list "Product design keywords" [ref=e89]:
+              - listitem [ref=e90]: 藏青色版本采用防眩光哑光表面，兼具粗犷与精致美感。仅一毫米的轻薄厚度大幅节约物流成本，却具备极高韧性。安装便捷，无缝对齐，是追求高性价比商业翻新工程的理想选择。
+          - generic [ref=e91]:
+            - link "Request product information" [ref=e92] [cursor=pointer]:
+              - /url: /contact?product=GeoPrism%20Blue&code=D001
+            - link "Back to category" [ref=e95] [cursor=pointer]:
+              - /url: /products/3d-pvc-wall-panel
+    - generic [ref=e99]:
+      - article [ref=e100]:
+        - paragraph [ref=e101]: Collection
+        - heading "About GeoPrism" [level=2] [ref=e102]
+        - paragraph [ref=e103]: Elevate your interiors with our GeoPrism Series 3D PVC wall panels. Featuring sharp geometric facets and precise diamond-cut relief patterns, these panels create dramatic light-and-shadow interplay that transforms ordinary walls into stunning focal points. Crafted from eco-friendly flame-retardant PVC, they offer waterproof durability and effortless installation for modern residential and commercial spaces.
+      - article [ref=e104]:
+        - paragraph [ref=e105]: Product reference
+        - heading "Additional information" [level=2] [ref=e106]
+        - paragraph [ref=e107]: 3D墙贴-D001-1-30X30-几何图-平面图
+  - contentinfo [ref=e108]:
+    - generic [ref=e109]:
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - link "Deco Supplier" [ref=e112] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e117]: Factory-direct PVC decorative film, LVT flooring, and wall panel supplier with OEM/ODM production and export support.
+          - generic [ref=e118]:
+            - link "LinkedIn" [ref=e119] [cursor=pointer]:
+              - /url: https://linkedin.com/company/decosupplier
+            - link "Twitter" [ref=e122] [cursor=pointer]:
+              - /url: https://twitter.com/decosupplier
+            - link "Facebook" [ref=e125] [cursor=pointer]:
+              - /url: https://facebook.com/decosupplier
+        - generic [ref=e128]:
+          - heading "Quick Links" [level=3] [ref=e129]
+          - list [ref=e130]:
+            - listitem [ref=e131]:
+              - link "Home" [ref=e132] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e133]:
+              - link "Products" [ref=e134] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e135]:
+              - link "About" [ref=e136] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e137]:
+              - link "Service" [ref=e138] [cursor=pointer]:
+                - /url: /service
+            - listitem [ref=e139]:
+              - link "Blog" [ref=e140] [cursor=pointer]:
+                - /url: /Blog
+            - listitem [ref=e141]:
+              - link "Contact" [ref=e142] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e143]:
+          - heading "Products" [level=3] [ref=e144]
+          - list [ref=e145]:
+            - listitem [ref=e146]:
+              - link "All Products All Products" [ref=e147] [cursor=pointer]:
+                - /url: /products
+                - img "All Products" [ref=e148]
+                - generic [ref=e149]: All Products
+            - listitem [ref=e150]:
+              - link "PVC Decorative Film PVC Decorative Film" [ref=e151] [cursor=pointer]:
+                - /url: /products/pvc-decorative-film
+                - img "PVC Decorative Film" [ref=e152]
+                - generic [ref=e153]: PVC Decorative Film
+            - listitem [ref=e154]:
+              - link "LVT Flooring LVT Flooring" [ref=e155] [cursor=pointer]:
+                - /url: /products/lvt-flooring
+                - img "LVT Flooring" [ref=e156]
+                - generic [ref=e157]: LVT Flooring
+            - listitem [ref=e158]:
+              - link "SPC Wall Panels SPC Wall Panels" [ref=e159] [cursor=pointer]:
+                - /url: /products/spc-wall-panels
+                - img "SPC Wall Panels" [ref=e160]
+                - generic [ref=e161]: SPC Wall Panels
+            - listitem [ref=e162]:
+              - link "Interior Refinishing Film Interior Refinishing Film" [ref=e163] [cursor=pointer]:
+                - /url: /products/interior-refinishing-film
+                - img "Interior Refinishing Film" [ref=e164]
+                - generic [ref=e165]: Interior Refinishing Film
+            - listitem [ref=e166]:
+              - link "Self-Adhesive Foam Wall Panels Self-Adhesive Foam Wall Panels" [ref=e167] [cursor=pointer]:
+                - /url: /products/self-adhesive-foam-wall-panels
+                - img "Self-Adhesive Foam Wall Panels" [ref=e168]
+                - generic [ref=e169]: Self-Adhesive Foam Wall Panels
+            - listitem [ref=e170]:
+              - link "3D PVC Wall Panels 3D PVC Wall Panels" [ref=e171] [cursor=pointer]:
+                - /url: /products/3d-pvc-wall-panels
+                - img "3D PVC Wall Panels" [ref=e172]
+                - generic [ref=e173]: 3D PVC Wall Panels
+            - listitem [ref=e174]:
+              - link "Peel & Stick Wallpapers Peel & Stick Wallpapers" [ref=e175] [cursor=pointer]:
+                - /url: /products/peel-and-stick-wallpapers
+                - img "Peel & Stick Wallpapers" [ref=e176]
+                - generic [ref=e177]: Peel & Stick Wallpapers
+        - generic [ref=e178]:
+          - heading "Get Started" [level=3] [ref=e179]
+          - list [ref=e180]:
+            - listitem [ref=e181]:
+              - link "Request a Quote" [ref=e182] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e183]:
+              - link "About Our Factory" [ref=e184] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e185]:
+              - link "Blog & Insights" [ref=e186] [cursor=pointer]:
+                - /url: /Blog
+          - link "Get Started" [ref=e188] [cursor=pointer]:
+            - /url: /contact
+      - generic [ref=e190]:
+        - paragraph [ref=e191]: © 2026 DecoSupplier. All rights reserved.
+        - generic [ref=e192]:
+          - link "Privacy Policy" [ref=e193] [cursor=pointer]:
+            - /url: /privacy
+          - generic [ref=e194]: •
+          - link "Terms of Service" [ref=e195] [cursor=pointer]:
+            - /url: /terms
+          - generic [ref=e196]: •
+          - link "Cookie Policy" [ref=e197] [cursor=pointer]:
+            - /url: /cookies
+  - dialog "Cookie consent" [ref=e199]:
+    - generic [ref=e200]:
+      - generic [ref=e204]:
+        - paragraph [ref=e205]: We use essential cookies and, with your consent, analytics cookies to improve site performance and understand how visitors use DecoSupplier.
+        - navigation "Legal policies" [ref=e206]:
+          - link "Privacy Policy" [ref=e207] [cursor=pointer]:
+            - /url: /privacy
+          - generic [ref=e208]: •
+          - link "Terms of Service" [ref=e209] [cursor=pointer]:
+            - /url: /terms
+          - generic [ref=e210]: •
+          - link "Cookie Policy" [ref=e211] [cursor=pointer]:
+            - /url: /cookies
+      - generic [ref=e212]:
+        - button "Reject" [ref=e213]
+        - button "Accept" [ref=e214]
+  - generic [ref=e217]:
+    - button [ref=e218]
+    - button [ref=e224]
+    - button [ref=e228]
+    - button [ref=e233]
